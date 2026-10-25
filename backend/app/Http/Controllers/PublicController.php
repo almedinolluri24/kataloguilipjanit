@@ -245,9 +245,9 @@ class PublicController extends Controller
             'featured' => false,
             'status' => 'draft', // Dërgohet si draft për miratim nga administratori (PDF faqe 4 & 8)
             'opening_hours' => $validated['opening_hours'] ?? null,
-            'services' => $validated['services'] ?? ['Shërbime cilësore'],
-            'latitude' => 42.5217,
-            'longitude' => 21.1258,
+            'services' => $validated['services'] ?? [],
+            'latitude' => null,
+            'longitude' => null,
             'cover_image' => $validated['cover_image'] ?? null,
             'is_demo' => false,
         ]);

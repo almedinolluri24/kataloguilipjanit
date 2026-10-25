@@ -733,7 +733,7 @@ export default function AdminDashboard() {
                     value={regPassword}
                     onChange={(e) => setRegPassword(e.target.value)}
                     required
-                    minLength={6}
+                    minLength={8}
                     autoComplete="new-password"
                     placeholder={tr('Shkruaj fjalëkalimin')}
                   />
@@ -751,7 +751,7 @@ export default function AdminDashboard() {
                     value={regPasswordConfirmation}
                     onChange={(e) => setRegPasswordConfirmation(e.target.value)}
                     required
-                    minLength={6}
+                    minLength={8}
                     autoComplete="new-password"
                     placeholder={tr('Konfirmo fjalëkalimin')}
                   />

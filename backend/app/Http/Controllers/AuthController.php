@@ -32,6 +32,12 @@ class AuthController extends Controller
 
         $email = strtolower(trim($validated['email']));
 
+        if (!in_array($email, config('services.admin_registration_emails', []), true)) {
+            return response()->json([
+                'message' => 'Regjistrimi i administratorëve nuk është i hapur për këtë email. Kontakto administratorin ekzistues.',
+            ], 403);
+        }
+
         // Gjenero kod 6-shifror unik p.sh. LIP-849201
         $code = 'LIP-' . strtoupper(Str::random(6));
 
@@ -68,14 +74,14 @@ class AuthController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:100',
             'email' => 'required|email|max:150|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => ['required', 'string', 'min:8', 'confirmed', Password::min(8)],
             'invite_code' => 'required|string',
         ], [
             'name.required' => 'Emri i plotë është i detyrueshëm.',
             'email.required' => 'Email adresa është e detyrueshme.',
             'email.unique' => 'Një llogari me këtë email tashmë ekziston.',
             'password.required' => 'Fjalëkalimi është i detyrueshëm.',
-            'password.min' => 'Fjalëkalimi duhet të ketë së paku 6 karaktere.',
+            'password.min' => 'Fjalëkalimi duhet të ketë së paku 8 karaktere.',
             'password.confirmed' => 'Konfirmimi i fjalëkalimit nuk përputhet.',
             'invite_code.required' => 'Kodi i ftesës administrative është i detyrueshëm për siguri.',
         ]);
@@ -83,10 +89,9 @@ class AuthController extends Controller
         $email = strtolower(trim($validated['email']));
         $cachedCode = cache()->get('admin_invite_' . $email);
 
-        $configuredCode = config('services.admin_invite_code');
-        $validInviteCodes = array_filter([$cachedCode, $configuredCode]);
-
-        if (!in_array(trim($validated['invite_code']), $validInviteCodes)) {
+        if (!in_array($email, config('services.admin_registration_emails', []), true)
+            || !$cachedCode
+            || !hash_equals($cachedCode, trim($validated['invite_code']))) {
             return response()->json([
                 'message' => 'Kodi i ftesës administrative nuk është i vlefshëm ose ka skaduar. Klikoni "Më dërgo kodin në email" për të marrë një kod të ri.',
             ], 403);
@@ -94,13 +99,13 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $validated['name'],
-            'email' => $validated['email'],
+            'email' => $email,
             'password' => Hash::make($validated['password']),
             'role' => 'admin',
             'api_token' => Str::random(60),
         ]);
 
-        // Fshi kodin nga cache pas përdorimit
+        // Kodi hiqet para se të kthehet përgjigjja për të mos lejuar ripërdorim.
         cache()->forget('admin_invite_' . $email);
 
         return response()->json([

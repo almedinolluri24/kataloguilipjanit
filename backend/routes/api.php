@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AdminController;
@@ -14,18 +15,27 @@ use App\Http\Controllers\DirectoryAssistantController;
 
 // Health check
 Route::get('/health', function () {
-    return response()->json([
-        'status' => 'ok',
-        'app' => 'Katalogu i Bizneseve te Lipjanit API',
-        'database' => 'connected',
-    ]);
+    try {
+        DB::connection()->getPdo();
+        return response()->json([
+            'status' => 'ok',
+            'app' => 'Katalogu i Bizneseve te Lipjanit API',
+            'database' => 'connected',
+        ]);
+    } catch (\Throwable $exception) {
+        return response()->json([
+            'status' => 'error',
+            'app' => 'Katalogu i Bizneseve te Lipjanit API',
+            'database' => 'unavailable',
+        ], 503);
+    }
 });
 
 // Autentikimi i Administratorit (publik - pa token)
 Route::prefix('auth')->group(function () {
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/send-invite-code', [AuthController::class, 'sendInviteCode']);
+    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
+    Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:5,1');
+    Route::post('/send-invite-code', [AuthController::class, 'sendInviteCode'])->middleware('throttle:3,1');
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 });

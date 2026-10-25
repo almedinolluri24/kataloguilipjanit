@@ -17,15 +17,21 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // 1. Admin User
-        User::updateOrCreate(
-            ['email' => 'admin@lipjan.com'],
-            [
-                'name' => 'Administratori i Katalogut',
-                'password' => Hash::make('admin123'),
-                'role' => 'admin',
-                'api_token' => 'admin-super-token-lipjan-2026',
-            ]
-        );
+        // Krijo llogari demo vetëm kur kredencialet lokale janë vendosur shprehimisht.
+        // firstOrCreate ruan llogaritë ekzistuese dhe nuk rivendos fjalëkalimin/tokenin.
+        $adminEmail = strtolower(trim((string) env('DEMO_ADMIN_EMAIL', '')));
+        $adminPassword = (string) env('DEMO_ADMIN_PASSWORD', '');
+        if ($adminEmail !== '' && $adminPassword !== '') {
+            User::firstOrCreate(
+                ['email' => $adminEmail],
+                [
+                    'name' => 'Administratori i Katalogut',
+                    'password' => Hash::make($adminPassword),
+                    'role' => 'admin',
+                    'api_token' => null,
+                ]
+            );
+        }
 
         // 2. Categories (8 kategori)
         $categories = [

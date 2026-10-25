@@ -96,6 +96,14 @@ class AdminController extends Controller
             'logo' => 'nullable|string',
         ]);
 
+        if ($validated['status'] === 'published'
+            && (($validated['latitude'] ?? null) === null || ($validated['longitude'] ?? null) === null)) {
+            return response()->json([
+                'message' => 'Për publikim duhet të caktohen koordinatat reale të biznesit.',
+                'errors' => ['latitude' => ['Koordinatat kërkohen për publikim.'], 'longitude' => ['Koordinatat kërkohen për publikim.']],
+            ], 422);
+        }
+
         $id = 'b-' . time();
         $slug = Str::slug($validated['name']) . '-' . rand(100, 999);
 
@@ -158,6 +166,18 @@ class AdminController extends Controller
         ]);
 
         $oldStatus = $business->status;
+        if (($validated['status'] ?? null) === 'published'
+            || (in_array($business->status, ['published'], true)
+                && (array_key_exists('latitude', $validated) || array_key_exists('longitude', $validated)))) {
+            $latitude = array_key_exists('latitude', $validated) ? $validated['latitude'] : $business->latitude;
+            $longitude = array_key_exists('longitude', $validated) ? $validated['longitude'] : $business->longitude;
+            if ($latitude === null || $longitude === null || $latitude === '' || $longitude === '') {
+                return response()->json([
+                    'message' => 'Për publikim duhet të caktohen koordinatat reale të biznesit.',
+                    'errors' => ['latitude' => ['Koordinatat kërkohen për publikim.'], 'longitude' => ['Koordinatat kërkohen për publikim.']],
+                ], 422);
+            }
+        }
         $business->update($validated);
 
         // Kërkesa strikte e PDF (faqe 8 & T-11):

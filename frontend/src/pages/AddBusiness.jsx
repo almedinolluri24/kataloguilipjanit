@@ -124,7 +124,7 @@ export default function AddBusiness() {
         cover_image: formData.coverImage.trim() || null,
         services: formData.services
           ? formData.services.split(',').map((s) => s.trim()).filter(Boolean)
-          : ['Shërbime cilësore']
+          : []
       };
 
       const res = await api.public.submitBusiness(payload);

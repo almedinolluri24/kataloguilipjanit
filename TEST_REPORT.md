@@ -3,6 +3,8 @@ Sipas Kapitullit 9 të Dokumentit Zyrtar: `Projekti-01-Katalogu-i-bizneseve.pdf`
 Data e ekzekutimit: 18 Tetor 2026
 Mjedisi: React 19 (Frontend) · Laravel 12 (Backend API) · MySQL 10.4 (MariaDB)
 
+> **Shënim i auditimit (25 tetor 2026):** Rezultatet PASS më poshtë janë regjistrim historik i këtij dokumenti dhe nuk janë riekzekutuar/verifikuar në snapshot-in aktual të projektit. Git-i ka vetëm commit-in fillestar të regjistruar më 25 tetor 2026, pas datës së këtij raporti. Prandaj mos i paraqit si prova të verifikuara të versionit aktual derisa testet të ekzekutohen përsëri në databazë të veçantë testimi. Skenari T-10 shton kategori dhe nuk duhet ekzekutuar në databazën me të dhëna reale pa pastrim të kontrolluar.
+
 | ID | Skenari i Testimit | Rezultati i Pritshëm | Rezultati Real | Statusi (PASS / FAIL) | Shënime & Detaje |
 |---|---|---|---|---|---|
 | **T-01** | Vizitori kërkon një emër biznesi | Shfaqen bizneset që përputhen me kërkimin | U kërkua termi "Vila" dhe u kthye "Restorant Vila Lipjani" | **PASS** | Kërkim me tekst case-insensitive me SQL LIKE |

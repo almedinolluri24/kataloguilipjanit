@@ -3,7 +3,7 @@ Burimi: `Projekti-01-Katalogu-i-bizneseve.pdf` (Versioni 1.0)
 
 | ID | Seksioni & Kërkesa | Gjendja e Implementimit | Statusi |
 |---|---|---|---|
-| **REQ-01** | **Arkitektura Full-Stack**: React + Laravel API + MySQL (React nuk lidhet direkt me DB) | Laravel API funksionon në portën 8000; MySQL ruan të gjitha të dhënat; React komunikon përmes `api.js` | ✅ PLOTËSUAR |
+| **REQ-01** | **Arkitektura Full-Stack**: React + Laravel API + MySQL (React nuk lidhet direkt me DB) | React komunikon me Laravel API; shembulli i konfigurimit tani parazgjedh MySQL, por databaza dhe rrjedha MySQL duhet testuar në këtë projekt | 🟡 PJESËRISHT — TESTO MYSQL |
 | **REQ-02** | **Faqja Kryesore**: Header, logo, kërkim me fushë & Enter, kategori dinamike, biznese të përzgjedhura, hapësirë reklamimi e etiketuar | Realizuar në `Home.jsx` me thirrje në API, kërkim me buton & Enter, kategori reale dhe baner të etiketuar | ✅ PLOTËSUAR |
 | **REQ-03** | **Lista e Bizneseve**: Kartela të njëtrajtshme, shkurtim teksti, pamje rezervë pa foto, butonat "Shiko biznesin" & "Telefono" | Realizuar në `Businesses.jsx` dhe `BusinessCard.jsx` me fallback imazhi dhe formatim të unifikuar | ✅ PLOTËSUAR |
 | **REQ-04** | **Faqezimi (Pagination)**: 12 biznese për faqe; numri total i të gjitha përputhjeve; kthim në faqe 1 pas ndryshimit të filtrit | Realizuar në `PublicController.php` me `paginate(12)` dhe sinkronizuar në `Pagination.jsx` | ✅ PLOTËSUAR |
@@ -19,6 +19,6 @@ Burimi: `Projekti-01-Katalogu-i-bizneseve.pdf` (Versioni 1.0)
 | **REQ-14** | **Paneli i Administrimit & Autentikimi**: Hyrje me kredenciale, mbrojtje rrugësh, refuzim i të paautorizuarve (401/403) | Realizuar me `AuthController.php`, `AdminTokenAuth.php` dhe ekranin e login-it në `AdminDashboard.jsx` | ✅ PLOTËSUAR |
 | **REQ-15** | **Dashboard i Statistikave**: Numri real nga DB për: të publikuara, draft, arkivuara, reklama aktive, kategori | Realizuar me endpoint `/api/admin/stats` që numëron nga MySQL | ✅ PLOTËSUAR |
 | **REQ-16** | **CRUD Bizneseve**: Krijim, lexim, përditësim, arkivim, ndryshim statusi; konfirmim me emër biznesi për veprime me ndikim | Realizuar në `AdminDashboard.jsx`, `BusinessModal.jsx` dhe `ConfirmModal.jsx` | ✅ PLOTËSUAR |
-| **REQ-17** | **CRUD Kategorive, Vendbanimeve & Shërbimeve**: Shto/ndrysho/fshi me parandalim fshirjeje kur ka biznese të lidhura | Zbatuar në `AdminController::deleteCategory()` (kthen 422 kur ka biznese të lidhura) | ✅ PLOTËSUAR |
+| **REQ-17** | **CRUD Kategorive, Vendbanimeve & Shërbimeve**: Shto/ndrysho/fshi me parandalim fshirjeje kur ka biznese të lidhura | Kategoritë dhe vendbanimet kanë API administrative; menaxhimi i shërbimeve nga paneli nuk është i plotë dhe kërkon plotësim/verifikim | ❌ MUNGON PJESËRISHT |
 | **REQ-18** | **Të Dhëna Demo (Seeders)**: Së paku 30 biznese, 6 kategori, 4 vendbanime, të paktën 1 draft, 1 arkivuar, reklama me 4 statuset | `DatabaseSeeder.php` ka 30 biznese, 8 kategori, 12 vendbanime, 16 shërbime, 6 reklama dhe llogari Admin | ✅ PLOTËSUAR |
-| **REQ-19** | **Testimi i Skenarëve T-01 deri T-14**: Verifikim i plotë dhe regjistrim i rezultatit PASS/FAIL në raport | Të gjitha 14 testet u ekzekutuan dhe kaluan me PASS (100%) | ✅ PLOTËSUAR |
+| **REQ-19** | **Testimi i Skenarëve T-01 deri T-14**: Verifikim i plotë dhe regjistrim i rezultatit PASS/FAIL në raport | `TEST_REPORT.md` përmban rezultate të raportuara më herët; ekzekutimi në snapshot-in aktual nuk është verifikuar | 🟡 DUHET TESTUAR |

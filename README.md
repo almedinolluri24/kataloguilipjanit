@@ -1,7 +1,7 @@
 # Katalogu i Bizneseve të Komunës së Lipjanit
 
 Platformë **Full-Stack** për gjetjen, kërkimin, filtrimin dhe kontaktimin e bizneseve në territorin e Komunës së Lipjanit.  
-Ndërtuar sipas specifikimeve 100% të dokumentit zyrtar: `Projekti-01-Katalogu-i-bizneseve.pdf` (Shkolla Digjitale Lipjan, Praktika Profesionale 2026/27).
+Projekt studentor i bazuar në dokumentin zyrtar `Projekti-01-Katalogu-i-bizneseve.pdf` (Shkolla Digjitale Lipjan, Praktika Profesionale 2026/27). Përputhja me kërkesat duhet verifikuar me skenarët e testimit para dorëzimit.
 
 ---
 
@@ -16,19 +16,21 @@ Ndërtuar sipas specifikimeve 100% të dokumentit zyrtar: `Projekti-01-Katalogu-
 ## 🚀 Udhëzimet e Nisjes së Projektit
 
 ### 1. Baza e të Dhënave (MySQL)
-Sigurohuni që shërbimi MySQL në XAMPP ose sistemin tuaj është aktiv në portën `3306`.  
-Databaza e konfiguruar në `backend/.env`: `katalogu_lipjan`.
+Nisni MySQL në XAMPP ose në mjedisin tuaj dhe krijoni databazën `katalogu_lipjan`. Kopjoni `backend/.env.example` në `backend/.env`, gjeneroni `APP_KEY` me `php artisan key:generate`, pastaj vendosni `DB_*` sipas MySQL-it tuaj. Mos e zëvendësoni `.env` me kredenciale publike dhe mos i bëni commit.
 
 ### 2. Backend (Laravel API)
 ```bash
 cd backend
 composer install
-php artisan migrate --seed
+php artisan key:generate
+php artisan migrate
 php artisan serve --host=127.0.0.1 --port=8000
 ```
 Backend API do të jetë i qasshëm në: `http://127.0.0.1:8000/api`
 
-Konfiguroni `backend/.env` me parametrat e databazës suaj para migrimit. `migrate:fresh` i fshin tabelat ekzistuese dhe nuk duhet përdorur në një databazë që përmban të dhëna që dëshironi t’i ruani.
+Konfiguroni `backend/.env` me parametrat e databazës suaj para migrimit. Në instalim të ri, ekzekutoni `php artisan db:seed` vetëm pasi të keni vendosur kredencialet lokale të administratorit. Seeder-i nuk krijon ose rivendos llogarinë e administratorit pa `DEMO_ADMIN_EMAIL` dhe `DEMO_ADMIN_PASSWORD`; vendosini vetëm lokalisht para seedimit të parë. Ekzekutimi i përsëritur i seeder-it nuk e ndryshon llogarinë ekzistuese. `migrate:fresh` i fshin tabelat dhe nuk duhet përdorur në databazë me të dhëna që doni t’i ruani.
+
+Regjistrimi i administratorëve është i mbyllur si parazgjedhje. Për një adresë të autorizuar, vendoseni `ADMIN_REGISTRATION_EMAILS` në `.env` (mund të ketë disa adresa të ndara me presje) dhe konfiguroni dërgimin e email-it. Mos përdorni kod global të përbashkët ftese.
 
 ### 3. Frontend (React + Vite)
 ```bash
@@ -42,7 +44,7 @@ Portali publik do të jetë i qasshëm në: `http://localhost:5173`
 
 ## 🔑 Kredencialet e Administratorit
 - Paneli: `http://localhost:5173/admin`
-- Në mjedis lokal, përdorni llogarinë demo të krijuar nga `backend/database/seeders/DatabaseSeeder.php`. Ndryshoni kredencialet demo para përdorimit real; mos përdorni vlera demo në prodhim.
+- Në mjedis lokal, krijoni llogarinë demo duke vendosur `DEMO_ADMIN_EMAIL` dhe `DEMO_ADMIN_PASSWORD` në `backend/.env` para seedimit. Përdorni fjalëkalim unik dhe mos e vendosni në README, GitHub ose prodhim.
 
 ---
 
@@ -120,7 +122,9 @@ npm run build
 
 ---
 
-## 🧪 Rezultatet e Testimit të Skenarëve Zyrtarë (T-01 deri T-14)
+## 🧪 Raporti historik i testimit të skenarëve zyrtarë (T-01 deri T-14)
+
+Rezultatet në tabelën më poshtë janë shënuar më 18 tetor 2026 dhe nuk janë riekzekutuar për snapshot-in aktual. Shih shënimin në `TEST_REPORT.md`; mos i konsidero verifikim të versionit aktual pa i përsëritur në databazë të veçantë testimi.
 
 Skripti i automatizuar i testimit ndodhet në `backend/test_scenarios.php`.  
 Ekzekutimi: `php backend/test_scenarios.php`

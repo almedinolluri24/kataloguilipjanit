@@ -21,12 +21,12 @@ export default function BusinessModal({
     website: '',
     short_description: '',
     description: '',
-    status: 'published',
+    status: 'draft',
     featured: false,
     cover_image: '',
     services: '',
-    latitude: 42.5217,
-    longitude: 21.1258,
+    latitude: '',
+    longitude: '',
     weekdaysHours: '08:00 - 20:00',
     saturdayHours: '08:00 - 18:00',
     sundayHours: 'Mbyllur'
@@ -53,8 +53,8 @@ export default function BusinessModal({
         featured: Boolean(business.featured),
         cover_image: business.cover_image || business.coverImage || '',
         services: Array.isArray(business.services) ? business.services.join(', ') : '',
-        latitude: business.latitude ?? (business.coordinates?.lat || 42.5217),
-        longitude: business.longitude ?? (business.coordinates?.lng || 21.1258),
+        latitude: business.latitude ?? business.coordinates?.lat ?? '',
+        longitude: business.longitude ?? business.coordinates?.lng ?? '',
         weekdaysHours: business.opening_hours?.weekdays || business.openingHours?.weekdays || '08:00 - 20:00',
         saturdayHours: business.opening_hours?.saturday || business.openingHours?.saturday || '08:00 - 18:00',
         sundayHours: business.opening_hours?.sunday || business.openingHours?.sunday || 'Mbyllur'
@@ -70,12 +70,12 @@ export default function BusinessModal({
         website: '',
         short_description: '',
         description: '',
-        status: 'published',
+        status: 'draft',
         featured: false,
         cover_image: '',
         services: '',
-        latitude: 42.5217,
-        longitude: 21.1258,
+        latitude: '',
+        longitude: '',
         weekdaysHours: '08:00 - 20:00',
         saturdayHours: '08:00 - 18:00',
         sundayHours: 'Mbyllur'
@@ -103,6 +103,9 @@ export default function BusinessModal({
     if (!formData.description.trim()) {
       newErrors.description = 'Përshkrimi i plotë është i detyrueshëm.';
     }
+    if (formData.status === 'published' && (!formData.latitude || !formData.longitude)) {
+      newErrors.latitude = 'Për publikim duhet të vendosen koordinatat reale të biznesit.';
+    }
     if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Format i pasaktë i email adresës.';
     }
@@ -127,8 +130,8 @@ export default function BusinessModal({
       status: formData.status,
       featured: Boolean(formData.featured),
       cover_image: formData.cover_image.trim() || null,
-      latitude: formData.latitude ? Number(formData.latitude) : null,
-      longitude: formData.longitude ? Number(formData.longitude) : null,
+      latitude: formData.latitude !== '' ? Number(formData.latitude) : null,
+      longitude: formData.longitude !== '' ? Number(formData.longitude) : null,
       opening_hours: {
         weekdays: formData.weekdaysHours,
         saturday: formData.saturdayHours,
@@ -400,7 +403,7 @@ export default function BusinessModal({
                   id="m-biz-lat"
                   type="number"
                   step="any"
-                  className="form-input"
+                  className={`form-input ${errors.latitude ? 'has-error' : ''}`}
                   value={formData.latitude}
                   onChange={(e) => setFormData({ ...formData, latitude: e.target.value })}
                 />
@@ -414,11 +417,16 @@ export default function BusinessModal({
                   id="m-biz-lng"
                   type="number"
                   step="any"
-                  className="form-input"
+                  className={`form-input ${errors.latitude ? 'has-error' : ''}`}
                   value={formData.longitude}
                   onChange={(e) => setFormData({ ...formData, longitude: e.target.value })}
                 />
               </div>
+              {errors.latitude && (
+                <span className="form-error-msg" style={{ gridColumn: '1 / -1' }}>
+                  <AlertCircle size={14} /> {tr(errors.latitude)}
+                </span>
+              )}
             </div>
 
             {/* Status & Featured */}
