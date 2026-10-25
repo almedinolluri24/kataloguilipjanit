@@ -1,0 +1,24 @@
+# REQUIREMENTS CHECKLIST: Katalogu i Bizneseve të Lipjanit
+Burimi: `Projekti-01-Katalogu-i-bizneseve.pdf` (Versioni 1.0)
+
+| ID | Seksioni & Kërkesa | Gjendja e Implementimit | Statusi |
+|---|---|---|---|
+| **REQ-01** | **Arkitektura Full-Stack**: React + Laravel API + MySQL (React nuk lidhet direkt me DB) | Laravel API funksionon në portën 8000; MySQL ruan të gjitha të dhënat; React komunikon përmes `api.js` | ✅ PLOTËSUAR |
+| **REQ-02** | **Faqja Kryesore**: Header, logo, kërkim me fushë & Enter, kategori dinamike, biznese të përzgjedhura, hapësirë reklamimi e etiketuar | Realizuar në `Home.jsx` me thirrje në API, kërkim me buton & Enter, kategori reale dhe baner të etiketuar | ✅ PLOTËSUAR |
+| **REQ-03** | **Lista e Bizneseve**: Kartela të njëtrajtshme, shkurtim teksti, pamje rezervë pa foto, butonat "Shiko biznesin" & "Telefono" | Realizuar në `Businesses.jsx` dhe `BusinessCard.jsx` me fallback imazhi dhe formatim të unifikuar | ✅ PLOTËSUAR |
+| **REQ-04** | **Faqezimi (Pagination)**: 12 biznese për faqe; numri total i të gjitha përputhjeve; kthim në faqe 1 pas ndryshimit të filtrit | Realizuar në `PublicController.php` me `paginate(12)` dhe sinkronizuar në `Pagination.jsx` | ✅ PLOTËSUAR |
+| **REQ-05** | **Gjendjet e Ndërfaqes**: Gjendje pa rezultate me butonin "Pastro filtrat", gjendje ngarkimi (spinner), gjendje gabimi me riprovim | Integruar me `isLoading`, `errorMessage` dhe `businesses.length === 0` në `Businesses.jsx` | ✅ PLOTËSUAR |
+| **REQ-06** | **Profili i Biznesit**: Emri, kategoria, kontaktet lart; përshkrimi, shërbimet, orari ("Orari nuk është publikuar" kur mungon), harta me pin | Realizuar në `BusinessDetails.jsx` me orar të formatuar, "Shiko udhëzimet" në hartë dhe thirrje telefonike | ✅ PLOTËSUAR |
+| **REQ-07** | **Mosshfaqja e Bizneseve jo-publike**: Bizneset `draft` dhe `archived` nuk dalin as në listë as me link direkt | Zbatuar në `PublicController::business()` (kthen HTTP 404 me mesazh të qartë) | ✅ PLOTËSUAR |
+| **REQ-08** | **Kërkimi me Tekst**: Sipas emrit dhe përshkrimit, case-insensitive, trim hapësirave, mbështetje "furre"/"furrë" | Zbatuar në `PublicController.php` me SQL `LIKE` dhe zëvendësim `ë`/`e` | ✅ PLOTËSUAR |
+| **REQ-09** | **Filtrat Statikë & Dinamikë**: Website (po/jo), Orar i publikuar (po/jo), Renditja (A-Z, Z-A, më të rejat), Kategori, Vendbanim, Shërbim | Realizuar në `FilterBar.jsx` dhe në query builder të Laravel-it | ✅ PLOTËSUAR |
+| **REQ-10** | **Filtrat e Ruajtur në URL**: Sinkronizim i dyanshëm me `searchParams` të URL-së, rihapja e linkut rikthen gjendjen | Realizuar me `useSearchParams` në `Businesses.jsx` (ruhen: kerko, kategoria, vendbanimi, sherbimi, website, orari, renditja, faqe) | ✅ PLOTËSUAR |
+| **REQ-11** | **Harta me Leaflet**: Pin për profilin, hartë në listë me bizneset e faqes aktuale ("Bizneset e kësaj faqeje"), popup me emër/adresë/link | Realizuar me `LeafletMap.jsx` dhe `MultiBusinessMap.jsx` | ✅ PLOTËSUAR |
+| **REQ-12** | **Hapësirat e Reklamimit**: Banner në Home, banner në Katalog; etiketuar qartë "Reklamë"/"E sponsorizuar"; prioritet dhe rregullat e kohës | Realizuar në `AdvertisementBanner.jsx` dhe filtruara në backend | ✅ PLOTËSUAR |
+| **REQ-13** | **Statuset e Reklamave**: `active`, `scheduled`, `expired`, `disabled`; fshehje e reklamave të skaduara ose bizneseve të arkivuara | Zbatuar në `PublicController::advertisements()` dhe menaxhuar në `AdminController` | ✅ PLOTËSUAR |
+| **REQ-14** | **Paneli i Administrimit & Autentikimi**: Hyrje me kredenciale, mbrojtje rrugësh, refuzim i të paautorizuarve (401/403) | Realizuar me `AuthController.php`, `AdminTokenAuth.php` dhe ekranin e login-it në `AdminDashboard.jsx` | ✅ PLOTËSUAR |
+| **REQ-15** | **Dashboard i Statistikave**: Numri real nga DB për: të publikuara, draft, arkivuara, reklama aktive, kategori | Realizuar me endpoint `/api/admin/stats` që numëron nga MySQL | ✅ PLOTËSUAR |
+| **REQ-16** | **CRUD Bizneseve**: Krijim, lexim, përditësim, arkivim, ndryshim statusi; konfirmim me emër biznesi për veprime me ndikim | Realizuar në `AdminDashboard.jsx`, `BusinessModal.jsx` dhe `ConfirmModal.jsx` | ✅ PLOTËSUAR |
+| **REQ-17** | **CRUD Kategorive, Vendbanimeve & Shërbimeve**: Shto/ndrysho/fshi me parandalim fshirjeje kur ka biznese të lidhura | Zbatuar në `AdminController::deleteCategory()` (kthen 422 kur ka biznese të lidhura) | ✅ PLOTËSUAR |
+| **REQ-18** | **Të Dhëna Demo (Seeders)**: Së paku 30 biznese, 6 kategori, 4 vendbanime, të paktën 1 draft, 1 arkivuar, reklama me 4 statuset | `DatabaseSeeder.php` ka 30 biznese, 8 kategori, 12 vendbanime, 16 shërbime, 6 reklama dhe llogari Admin | ✅ PLOTËSUAR |
+| **REQ-19** | **Testimi i Skenarëve T-01 deri T-14**: Verifikim i plotë dhe regjistrim i rezultatit PASS/FAIL në raport | Të gjitha 14 testet u ekzekutuan dhe kaluan me PASS (100%) | ✅ PLOTËSUAR |

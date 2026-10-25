@@ -1,0 +1,18 @@
+# Local environment and secrets
+/backend/.env
+/backend/.env.*
+!/backend/.env.example
+
+# Installed dependencies and generated builds
+/backend/vendor/
+/backend/node_modules/
+/backend/public/build/
+/backend/public/hot
+/frontend/node_modules/
+/frontend/dist/
+/frontend/dist-ssr/
+
+# Local test and operating-system files
+/backend/.phpunit.result.cache
+/.DS_Store
+/Thumbs.db

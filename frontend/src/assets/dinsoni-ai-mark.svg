@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="12" y1="8" x2="116" y2="122" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563EB"/><stop offset=".52" stop-color="#6547EE"/><stop offset="1" stop-color="#B52CD2"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="29" y1="34" x2="103" y2="96" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A5F3FC"/><stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+    <filter id="shadow" x="15" y="17" width="98" height="98" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+  </defs>
+  <rect x="3" y="3" width="122" height="122" rx="36" fill="url(#bg)"/>
+  <path d="M64 33v62M59 39c-5-8-17-7-21 1-10-1-17 8-14 17-8 7-5 20 4 24-1 10 8 17 18 15 4 8 15 8 18 0M69 39c5-8 17-7 21 1 10-1 17 8 14 17 8 7 5 20-4 24 1 10-8 17-18 15-4 8-15 8-18 0" stroke="#B8A7FF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity=".65" filter="url(#shadow)"/>
+  <path d="M64 33v62M59 39c-5-8-17-7-21 1-10-1-17 8-14 17-8 7-5 20 4 24-1 10 8 17 18 15 4 8 15 8 18 0M69 39c5-8 17-7 21 1 10-1 17 8 14 17 8 7 5 20-4 24 1 10-8 17-18 15-4 8-15 8-18 0" stroke="url(#glow)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m39 52 13 9-9 13 16 10m30-32-13 9 9 13-16 10M64 33v10m0 39v13" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="39" cy="52" r="4" fill="#67E8F9"/><circle cx="52" cy="61" r="4" fill="#fff"/><circle cx="43" cy="74" r="4" fill="#67E8F9"/><circle cx="59" cy="84" r="4" fill="#fff"/>
+  <circle cx="89" cy="52" r="4" fill="#67E8F9"/><circle cx="76" cy="61" r="4" fill="#fff"/><circle cx="85" cy="74" r="4" fill="#67E8F9"/><circle cx="69" cy="84" r="4" fill="#fff"/>
+  <circle cx="64" cy="29" r="4" fill="#fff"/><circle cx="64" cy="99" r="4" fill="#67E8F9"/>
+  <path d="m99 25 2.2 5.8L107 33l-5.8 2.2L99 41l-2.2-5.8L91 33l5.8-2.2L99 25Z" fill="#fff"/>
+</svg>
