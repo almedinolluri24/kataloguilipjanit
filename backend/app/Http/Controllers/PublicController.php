@@ -240,8 +240,8 @@ class PublicController extends Controller
             'website' => $validated['website'] ?? null,
             'short_description' => $validated['short_description'],
             'description' => $validated['description'],
-            'rating' => 5.0,
-            'review_count' => 1,
+            'rating' => 0,
+            'review_count' => 0,
             'featured' => false,
             'status' => 'draft', // Dërgohet si draft për miratim nga administratori (PDF faqe 4 & 8)
             'opening_hours' => $validated['opening_hours'] ?? null,

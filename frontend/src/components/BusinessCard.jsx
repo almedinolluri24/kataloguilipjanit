@@ -60,12 +60,14 @@ export default function BusinessCard({ business }) {
         </div>
 
         {/* Rating badge */}
-        <div className="card-badge-top-right">
-          <div className="badge-rating" title={`Vlerësimi: ${business.rating || 5.0} nga ${business.review_count || business.reviewCount || 1} vota`}>
-            <Star size={14} />
-            <span>{business.rating ? Number(business.rating).toFixed(1) : '5.0'}</span>
+        {Number(business.review_count ?? business.reviewCount ?? 0) > 0 && Number(business.rating) > 0 && (
+          <div className="card-badge-top-right">
+            <div className="badge-rating" title={`${Number(business.rating).toFixed(1)} (${business.review_count ?? business.reviewCount})`}>
+              <Star size={14} />
+              <span>{Number(business.rating).toFixed(1)}</span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Content */}

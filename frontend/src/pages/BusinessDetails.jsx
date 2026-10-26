@@ -185,11 +185,13 @@ export default function BusinessDetails() {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.5rem' }}>
-              <div className="badge-rating" style={{ fontSize: '1rem', padding: '0.4rem 0.85rem' }}>
-                <Star size={18} color="#f59e0b" fill="#f59e0b" />
-                <span>{business.rating ? Number(business.rating).toFixed(1) : '5.0'}</span>
-                <span className="details-supporting-text" style={{ fontSize: '0.8125rem' }}>({business.review_count || 1} {tr('vlerësime')})</span>
-              </div>
+              {Number(business.review_count ?? 0) > 0 && Number(business.rating) > 0 && (
+                <div className="badge-rating" style={{ fontSize: '1rem', padding: '0.4rem 0.85rem' }}>
+                  <Star size={18} color="#f59e0b" fill="#f59e0b" />
+                  <span>{Number(business.rating).toFixed(1)}</span>
+                  <span className="details-supporting-text" style={{ fontSize: '0.8125rem' }}>({business.review_count} {tr('vlerësime')})</span>
+                </div>
+              )}
               <span style={{ fontSize: '0.75rem', color: '#059669', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <CheckCircle size={14} /> {tr('Biznes i Verifikuar')}
               </span>
