@@ -2,6 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { MapPin, AlertTriangle } from 'lucide-react';
 
+const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+}[character]));
+
 export default function MultiBusinessMap({
   businesses = [],
   title = 'Bizneset e kësaj faqeje',
@@ -13,7 +21,11 @@ export default function MultiBusinessMap({
 
   // Filtrojmë vetëm bizneset që kanë koordinata reale valide
   const validBusinesses = businesses.filter(
-    (b) => b && b.latitude && b.longitude && !isNaN(b.latitude) && !isNaN(b.longitude)
+    (business) => business
+      && business.latitude !== null && business.latitude !== ''
+      && business.longitude !== null && business.longitude !== ''
+      && Number.isFinite(Number(business.latitude))
+      && Number.isFinite(Number(business.longitude))
   );
 
   useEffect(() => {
@@ -78,19 +90,19 @@ export default function MultiBusinessMap({
       const markers = [];
 
       validBusinesses.forEach((biz) => {
-        const marker = L.marker([biz.latitude, biz.longitude], {
+        const marker = L.marker([Number(biz.latitude), Number(biz.longitude)], {
           icon: createCustomIcon(biz.name)
         }).addTo(map);
 
         const popupContent = `
           <div style="font-family: inherit; padding: 6px 2px; min-width: 170px;">
             <strong style="color: #0f172a; font-size: 14px; display: block; margin-bottom: 4px;">
-              ${biz.name}
+              ${escapeHtml(biz.name)}
             </strong>
             <div style="color: #64748b; font-size: 12px; margin-bottom: 8px;">
-              ${biz.address || 'Lipjan'}
+              ${escapeHtml(biz.address || 'Lipjan')}
             </div>
-            <a href="/bizneset/${biz.id || biz.slug}" style="
+            <a href="/bizneset/${escapeHtml(encodeURIComponent(biz.id || biz.slug || ''))}" style="
               display: inline-block;
               background: #0d9488;
               color: #ffffff;
@@ -114,7 +126,7 @@ export default function MultiBusinessMap({
         const group = new L.featureGroup(markers);
         map.fitBounds(group.getBounds().pad(0.15));
       } else if (markers.length === 1) {
-        map.setView([validBusinesses[0].latitude, validBusinesses[0].longitude], 15);
+        map.setView([Number(validBusinesses[0].latitude), Number(validBusinesses[0].longitude)], 15);
       }
     } catch (err) {
       console.error('Error rendering Leaflet map:', err);
