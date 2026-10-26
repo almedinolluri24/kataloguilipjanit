@@ -104,6 +104,7 @@ const englishText = {
   "Nuk u gjet asnjë kategori për këtë kërkim.": "No categories match this search.",
   "Nuk ka kategori për t’u shfaqur.": "There are no categories to display.",
   "Pastro kërkimin": "Clear search",
+  "Ndrysho Kategorinë": "Edit category",
   "Provoni të ndryshoni fjalët kyçe të kërkimit ose pastroni filtrat e përzgjedhur.": "Try changing your search terms or clearing the selected filters.",
   "Shërbime cilësore për qytetarët e Lipjanit.": "Quality services for the people of Lipjan.",
   "Telefono biznesin": "Call this business",

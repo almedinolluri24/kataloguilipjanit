@@ -95,6 +95,7 @@ export default function AdminDashboard() {
   const [newCatName, setNewCatName] = useState('');
   const [newCatDesc, setNewCatDesc] = useState('');
   const [isAddingCat, setIsAddingCat] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null);
 
   const [newAdTitle, setNewAdTitle] = useState('');
   const [newAdSponsor, setNewAdSponsor] = useState('');
@@ -315,19 +316,25 @@ export default function AdminDashboard() {
   };
 
   // Category Actions
-  const handleAddCategory = async (e) => {
+  const handleSaveCategory = async (e) => {
     e.preventDefault();
     if (!newCatName.trim()) return;
 
     try {
-      await api.admin.createCategory({
+      const payload = {
         name: newCatName.trim(),
         description: newCatDesc.trim() || null
-      });
-      addToast(`Kategoria "${newCatName}" u shtua me sukses!`, 'success');
+      };
+      if (editingCategory) {
+        await api.admin.updateCategory(editingCategory.id, payload);
+      } else {
+        await api.admin.createCategory(payload);
+      }
+      addToast(editingCategory ? `Kategoria "${newCatName}" u përditësua.` : `Kategoria "${newCatName}" u shtua me sukses!`, 'success');
       setNewCatName('');
       setNewCatDesc('');
       setIsAddingCat(false);
+      setEditingCategory(null);
       loadAdminData();
     } catch (err) {
       addToast(err.message || 'Dështoi shtimi i kategorisë.', 'error');
@@ -1371,7 +1378,12 @@ export default function AdminDashboard() {
               <button
                 type="button"
                 className="btn btn-primary btn-sm"
-                onClick={() => setIsAddingCat(true)}
+                onClick={() => {
+                  setEditingCategory(null);
+                  setNewCatName('');
+                  setNewCatDesc('');
+                  setIsAddingCat(true);
+                }}
               >
                 <Plus size={16} />
                 <span>{tr('Shto Kategori')}</span>
@@ -1383,12 +1395,12 @@ export default function AdminDashboard() {
               <div className="modal-overlay" role="dialog" aria-modal="true">
                 <div className="modal-box" style={{ maxWidth: '440px' }}>
                   <div className="modal-header">
-                    <h3 className="modal-title">{tr('Shto Kategori të Re')}</h3>
-                    <button type="button" onClick={() => setIsAddingCat(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                    <h3 className="modal-title">{editingCategory ? tr('Ndrysho Kategorinë') : tr('Shto Kategori të Re')}</h3>
+                    <button type="button" onClick={() => { setIsAddingCat(false); setEditingCategory(null); }} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                       &times;
                     </button>
                   </div>
-                  <form onSubmit={handleAddCategory}>
+                  <form onSubmit={handleSaveCategory}>
                     <div className="modal-body">
                       <div className="form-group">
                         <label className="form-label">{tr('Emri i Kategorisë *')}</label>
@@ -1413,7 +1425,7 @@ export default function AdminDashboard() {
                       </div>
                     </div>
                     <div className="modal-footer">
-                      <button type="button" className="btn btn-outline" onClick={() => setIsAddingCat(false)}>{tr('Anulo')}</button>
+                      <button type="button" className="btn btn-outline" onClick={() => { setIsAddingCat(false); setEditingCategory(null); }}>{tr('Anulo')}</button>
                       <button type="submit" className="btn btn-primary">{tr('Ruaj Kategorinë')}</button>
                     </div>
                   </form>
@@ -1445,6 +1457,20 @@ export default function AdminDashboard() {
                           </td>
                           <td><span className="cat-count">{c.businesses_count ?? 0}</span></td>
                           <td style={{ textAlign: 'right' }}>
+                            <button
+                              type="button"
+                              className="btn btn-outline btn-sm"
+                              style={{ marginRight: '6px' }}
+                              onClick={() => {
+                                setEditingCategory(c);
+                                setNewCatName(c.name || '');
+                                setNewCatDesc(c.description || '');
+                                setIsAddingCat(true);
+                              }}
+                              title={tr('Ndrysho Kategorinë')}
+                            >
+                              <Edit2 size={13} />
+                            </button>
                             <button
                               type="button"
                               className="btn btn-outline btn-sm"
