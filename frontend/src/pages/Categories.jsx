@@ -42,9 +42,14 @@ export default function Categories() {
       .finally(() => setIsLoading(false));
   }, []);
 
-  const filteredCategories = categories.filter((c) =>
-    c.name.toLowerCase().includes(filterQuery.toLowerCase()) ||
-    (c.description || '').toLowerCase().includes(filterQuery.toLowerCase())
+  const normalizeSearch = (value) => value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase();
+  const normalizedQuery = normalizeSearch(filterQuery.trim());
+  const filteredCategories = categories.filter((category) =>
+    normalizeSearch(category.name || '').includes(normalizedQuery) ||
+    normalizeSearch(category.description || '').includes(normalizedQuery)
   );
 
   return (
