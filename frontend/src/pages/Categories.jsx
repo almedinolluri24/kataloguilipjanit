@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import {
   UtensilsCrossed,
@@ -12,7 +12,8 @@ import {
   Layers,
   ArrowRight,
   Search,
-  Loader2
+  Loader2,
+  RefreshCw
 } from 'lucide-react';
 import { api } from '../services/api';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -34,13 +35,22 @@ export default function Categories() {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterQuery, setFilterQuery] = useState('');
+  const [loadError, setLoadError] = useState('');
 
-  useEffect(() => {
-    api.public.getCategories()
-      .then((data) => setCategories(data || []))
-      .catch((err) => console.error('Error fetching categories:', err))
-      .finally(() => setIsLoading(false));
+  const loadCategories = useCallback(async () => {
+    setIsLoading(true);
+    setLoadError('');
+    try {
+      const data = await api.public.getCategories();
+      setCategories(data || []);
+    } catch {
+      setLoadError('Kategoritë nuk u ngarkuan. Kontrolloni lidhjen dhe provoni përsëri.');
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
+
+  useEffect(() => { loadCategories(); }, [loadCategories]);
 
   const normalizeSearch = (value) => value
     .normalize('NFD')
@@ -102,11 +112,24 @@ export default function Categories() {
         </div>
 
         {/* Categories Grid */}
-        {isLoading ? (
+        {loadError ? (
+          <div role="alert" style={{ padding: '1.25rem', border: '1px solid #fecaca', borderRadius: '12px', color: '#b91c1c' }}>
+            <p>{loadError}</p>
+            <button type="button" className="btn btn-outline btn-sm" onClick={loadCategories} disabled={isLoading}>
+              <RefreshCw size={14} className={isLoading ? 'animate-spin' : ''} /> {tr('Rifresko')}
+            </button>
+          </div>
+        ) : isLoading ? (
           <div style={{ textAlign: 'center', padding: '2rem 0' }}>
             <Loader2 className="animate-spin" size={36} color="#0d9488" style={{ margin: '0 auto' }} />
           </div>
         ) : (
+          filteredCategories.length === 0 ? (
+            <div role="status" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+              <p>{filterQuery ? tr('Nuk u gjet asnjë kategori për këtë kërkim.') : tr('Nuk ka kategori për t’u shfaqur.')}</p>
+              {filterQuery && <button type="button" className="btn btn-outline btn-sm" onClick={() => setFilterQuery('')}>{tr('Pastro kërkimin')}</button>}
+            </div>
+          ) : (
           <div className="category-showcase-grid">
             {filteredCategories.map((c) => {
               const IconComp = ICON_MAP[c.icon] || Layers;
@@ -145,6 +168,7 @@ export default function Categories() {
               );
             })}
           </div>
+          )
         )}
       </div>
     </div>
