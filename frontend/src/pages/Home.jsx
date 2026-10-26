@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   Sparkles,
@@ -8,7 +8,9 @@ import {
   TrendingUp,
   Store,
   Compass,
-  Loader2
+  Loader2,
+  AlertCircle,
+  RefreshCw
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SearchBar from '../components/SearchBar';
@@ -20,26 +22,38 @@ import { api } from '../services/api';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export default function Home() {
-  const { tr } = useLanguage();
+  const { tr, language } = useLanguage();
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [settlements, setSettlements] = useState([]);
   const [businesses, setBusinesses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
 
-  useEffect(() => {
-    Promise.all([
-      api.public.getCategories().catch(() => []),
-      api.public.getSettlements().catch(() => []),
-      api.public.getBusinesses({ sort: 'latest' }).catch(() => ({ data: [] }))
-    ]).then(([cats, sets, bizRes]) => {
+  const loadHomeData = useCallback(async () => {
+    setIsLoading(true);
+    setLoadError('');
+    try {
+      const [cats, sets, bizRes] = await Promise.all([
+        api.public.getCategories(),
+        api.public.getSettlements(),
+        api.public.getBusinesses({ sort: 'latest' })
+      ]);
       setCategories(cats || []);
       setSettlements(sets || []);
       setBusinesses(bizRes.data || []);
-    }).finally(() => {
+    } catch {
+      setLoadError(language === 'en'
+        ? 'The directory could not be loaded. Check your connection and try again.'
+        : 'Katalogu nuk u ngarkua. Kontrolloni lidhjen dhe provoni përsëri.');
+    } finally {
       setIsLoading(false);
-    });
-  }, []);
+    }
+  }, [language]);
+
+  useEffect(() => {
+    loadHomeData();
+  }, [loadHomeData]);
 
   // Featured businesses (up to 4)
   const featuredBusinesses = businesses
@@ -129,6 +143,19 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {loadError && (
+        <div className="container" role="alert" style={{ paddingTop: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', padding: '1rem 1.25rem', border: '1px solid #fecaca', borderRadius: '12px', background: 'var(--bg-card)', color: '#b91c1c' }}>
+            <AlertCircle size={18} />
+            <span>{loadError}</span>
+            <button type="button" className="btn btn-outline btn-sm" onClick={loadHomeData} disabled={isLoading}>
+              <RefreshCw size={14} className={isLoading ? 'animate-spin' : ''} />
+              {tr('Rifresko')}
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Popular Categories Section */}
       <section style={{ padding: '3rem 0 2rem' }}>
