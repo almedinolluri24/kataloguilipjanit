@@ -151,11 +151,11 @@ export default function AdminDashboard() {
     setIsLoadingData(true);
     try {
       const [statsRes, bizRes, catsRes, setsRes, adsRes] = await Promise.all([
-        api.admin.getStats().catch(() => ({})),
-        api.admin.getBusinesses({ status: statusFilter, category: catFilter, q: searchFilter }).catch(() => []),
-        api.admin.getCategories().catch(() => []),
-        api.admin.getSettlements().catch(() => []),
-        api.admin.getAdvertisements().catch(() => [])
+        api.admin.getStats(),
+        api.admin.getBusinesses({ status: statusFilter, category: catFilter, q: searchFilter }),
+        api.admin.getCategories(),
+        api.admin.getSettlements(),
+        api.admin.getAdvertisements()
       ]);
 
       setStats(statsRes || {});
