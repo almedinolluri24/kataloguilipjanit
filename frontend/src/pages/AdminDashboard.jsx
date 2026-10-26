@@ -96,6 +96,11 @@ export default function AdminDashboard() {
   const [newCatDesc, setNewCatDesc] = useState('');
   const [isAddingCat, setIsAddingCat] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
+  const [newSettlementName, setNewSettlementName] = useState('');
+  const [newSettlementDescription, setNewSettlementDescription] = useState('');
+  const [newSettlementIsTown, setNewSettlementIsTown] = useState(false);
+  const [isAddingSettlement, setIsAddingSettlement] = useState(false);
+  const [editingSettlement, setEditingSettlement] = useState(null);
 
   const [newAdTitle, setNewAdTitle] = useState('');
   const [newAdSponsor, setNewAdSponsor] = useState('');
@@ -354,6 +359,51 @@ export default function AdminDashboard() {
         } catch (err) {
           setIsConfirmOpen(false);
           addToast(err.message || 'Nuk mund të fshihet kategoria.', 'error');
+        }
+      }
+    });
+    setIsConfirmOpen(true);
+  };
+
+  const handleSaveSettlement = async (e) => {
+    e.preventDefault();
+    if (!newSettlementName.trim()) return;
+    const payload = {
+      name: newSettlementName.trim(),
+      description: newSettlementDescription.trim() || null,
+      is_town: newSettlementIsTown
+    };
+    try {
+      if (editingSettlement) {
+        await api.admin.updateSettlement(editingSettlement.id, payload);
+      } else {
+        await api.admin.createSettlement(payload);
+      }
+      addToast(editingSettlement ? 'Vendbanimi u përditësua.' : 'Vendbanimi u shtua.', 'success');
+      setIsAddingSettlement(false);
+      setEditingSettlement(null);
+      setNewSettlementName('');
+      setNewSettlementDescription('');
+      setNewSettlementIsTown(false);
+      loadAdminData();
+    } catch (err) {
+      addToast(err.message || 'Dështoi ruajtja e vendbanimit.', 'error');
+    }
+  };
+
+  const handleDeleteSettlement = (settlement) => {
+    setConfirmConfig({
+      title: `Fshi vendbanimin "${settlement.name}"?`,
+      message: 'Vendbanimet që kanë biznese të lidhura nuk mund të fshihen.',
+      onConfirm: async () => {
+        try {
+          await api.admin.deleteSettlement(settlement.id);
+          setIsConfirmOpen(false);
+          addToast(`Vendbanimi "${settlement.name}" u fshi.`, 'success');
+          loadAdminData();
+        } catch (err) {
+          setIsConfirmOpen(false);
+          addToast(err.message || 'Nuk mund të fshihet vendbanimi.', 'error');
         }
       }
     });
@@ -1433,6 +1483,40 @@ export default function AdminDashboard() {
               </div>
             )}
 
+            {isAddingSettlement && (
+              <div className="modal-overlay" role="dialog" aria-modal="true">
+                <div className="modal-box" style={{ maxWidth: '440px' }}>
+                  <div className="modal-header">
+                    <h3 className="modal-title">{editingSettlement ? tr('Ndrysho Vendbanimin') : tr('Shto Vendbanim të Ri')}</h3>
+                    <button type="button" onClick={() => { setIsAddingSettlement(false); setEditingSettlement(null); }} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>&times;</button>
+                  </div>
+                  <form onSubmit={handleSaveSettlement}>
+                    <div className="modal-body">
+                      <div className="form-group">
+                        <label className="form-label" htmlFor="settlement-name">{tr('Emri i Vendbanimit *')}</label>
+                        <input id="settlement-name" type="text" className="form-input" value={newSettlementName} onChange={(event) => setNewSettlementName(event.target.value)} required maxLength={100} />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label" htmlFor="settlement-type">{tr('Lloji i vendbanimit')}</label>
+                        <select id="settlement-type" className="form-select" value={newSettlementIsTown ? 'town' : 'village'} onChange={(event) => setNewSettlementIsTown(event.target.value === 'town')}>
+                          <option value="village">{tr('Fshat / Lokalitet')}</option>
+                          <option value="town">{tr('Qendër Urbane')}</option>
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label" htmlFor="settlement-description">{tr('Përshkrimi')}</label>
+                        <textarea id="settlement-description" rows={2} className="form-textarea" value={newSettlementDescription} onChange={(event) => setNewSettlementDescription(event.target.value)} />
+                      </div>
+                    </div>
+                    <div className="modal-footer">
+                      <button type="button" className="btn btn-outline" onClick={() => { setIsAddingSettlement(false); setEditingSettlement(null); }}>{tr('Anulo')}</button>
+                      <button type="submit" className="btn btn-primary">{tr('Ruaj Vendbanimin')}</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
+
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '1.5rem' }}>
               {/* Categories Card */}
               <div className="admin-table-card">
@@ -1490,8 +1574,15 @@ export default function AdminDashboard() {
 
               {/* Settlements Card */}
               <div className="admin-table-card">
-                <div style={{ padding: '1rem 1.25rem', borderBottom: '1px solid #e2e8f0', fontWeight: 700 }}>
-                  Vendbanimet ({settlements.length})
+                <div style={{ padding: '1rem 1.25rem', borderBottom: '1px solid #e2e8f0', fontWeight: 700, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.75rem' }}>
+                  <span>Vendbanimet ({settlements.length})</span>
+                  <button type="button" className="btn btn-primary btn-sm" onClick={() => {
+                    setEditingSettlement(null);
+                    setNewSettlementName('');
+                    setNewSettlementDescription('');
+                    setNewSettlementIsTown(false);
+                    setIsAddingSettlement(true);
+                  }}><Plus size={14} /> {tr('Shto Vendbanim')}</button>
                 </div>
                 <div className="table-responsive">
                   <table className="data-table">
@@ -1500,6 +1591,7 @@ export default function AdminDashboard() {
                         <th>{tr('Vendbanimi')}</th>
                         <th>{tr('Lloji')}</th>
                         <th>{tr('Biznese')}</th>
+                        <th>{tr('Veprime')}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1508,6 +1600,16 @@ export default function AdminDashboard() {
                           <td><strong>{s.name}</strong></td>
                           <td>{s.is_town ? 'Qendër Urbane' : 'Fshat / Lokalitet'}</td>
                           <td><span className="cat-count">{s.businesses_count ?? 0}</span></td>
+                          <td>
+                            <button type="button" className="btn btn-outline btn-sm" title={tr('Ndrysho Vendbanimin')} onClick={() => {
+                              setEditingSettlement(s);
+                              setNewSettlementName(s.name || '');
+                              setNewSettlementDescription(s.description || '');
+                              setNewSettlementIsTown(Boolean(s.is_town));
+                              setIsAddingSettlement(true);
+                            }}><Edit2 size={13} /></button>
+                            <button type="button" className="btn btn-outline btn-sm" title={tr('Fshi vendbanimin')} style={{ marginLeft: '6px', color: '#ef4444', borderColor: '#fca5a5' }} onClick={() => handleDeleteSettlement(s)}><Trash2 size={13} /></button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
