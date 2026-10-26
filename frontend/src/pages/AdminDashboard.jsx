@@ -615,7 +615,7 @@ export default function AdminDashboard() {
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
                   required
-                  autoComplete="off"
+                  autoComplete="username"
                   placeholder={tr('Shkruaj email-in')}
                 />
               </div>
@@ -632,7 +632,7 @@ export default function AdminDashboard() {
                   value={loginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
                   required
-                  autoComplete="new-password"
+                  autoComplete="current-password"
                   placeholder={tr('Shkruaj fjalëkalimin')}
                 />
                 <button type="button" className="password-visibility" onClick={() => setShowLoginPassword((shown) => !shown)} aria-label={showLoginPassword ? t('hidePassword') : t('showPassword')}>

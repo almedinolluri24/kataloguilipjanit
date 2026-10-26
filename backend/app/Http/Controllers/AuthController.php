@@ -258,7 +258,8 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        $user = User::where('email', $validated['email'])->first();
+        $email = strtolower(trim($validated['email']));
+        $user = User::where('email', $email)->first();
 
         if (!$user || !Hash::check($validated['password'], $user->password)) {
             return response()->json([

@@ -66,7 +66,7 @@ export const api = {
     async login(email, password) {
       const data = await request('/auth/login', {
         method: 'POST',
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email: email.trim().toLowerCase(), password })
       });
       if (data.token) {
         authStorage.setToken(data.token);
