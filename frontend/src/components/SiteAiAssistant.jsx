@@ -8,7 +8,7 @@ import dinsoniLogo from '../assets/dinsoni-ai-mark.svg';
 
 const copy = {
   sq: {
-    title: 'Dinsoni', greeting: 'Përshëndetje! Unë jam Dinsoni. Mund të kërkoj në katalogun real dhe t’ju dërgoj te faqja që kërkoni.',
+    title: 'AI', greeting: 'Përshëndetje! Unë jam asistenti AI. Mund të kërkoj në katalogun real dhe t’ju dërgoj te faqja që kërkoni.',
     hint: 'Shkruani ose flisni për bizneset, kategoritë, vendbanimet apo faqen e administratorit.',
     placeholder: 'Shkruani pyetjen tuaj…', send: 'Dërgo', open: 'Hape', listening: 'Po ju dëgjoj…',
     micUnsupported: 'Shfletuesi nuk e mbështet diktimin me zë.', micDenied: 'Lejoni mikrofonin në shfletues për të folur me asistentin.',
@@ -16,7 +16,7 @@ const copy = {
     stopVoice: 'Ndalo të folurit', stopMic: 'Ndalo mikrofonin', mic: 'Fol me asistentin', close: 'Mbyll asistentin',
     you: 'Ju', error: 'Nuk u lidhëm me asistentin. Provoni përsëri.',
     voiceMode: 'Bisedë zanore e vazhdueshme', voiceModeOff: 'Çaktivizo bisedën zanore', mute: 'Hesht përgjigjet zanore', unmute: 'Aktivizo zërin',
-    statusListening: 'Po ju dëgjoj', statusProcessing: 'Po përpunoj kërkesën', statusSpeaking: 'Dinsoni po flet', statusReady: 'Biseda zanore aktive',
+    statusListening: 'Po ju dëgjoj', statusProcessing: 'Po përpunoj kërkesën', statusSpeaking: 'Asistenti AI po flet', statusReady: 'Biseda zanore aktive',
     voicePrivacy: 'Shfletuesi njeh të folurin; vetëm transkriptimi dërgohet te asistenti. Kjo faqe nuk ruan audion.',
     voiceErrors: {
       'recognition-unsupported': 'Ky shfletues nuk e mbështet njohjen e të folurit. Mund të shkruani mesazhin.',
@@ -36,7 +36,7 @@ const copy = {
     },
   },
   en: {
-    title: 'Dinsoni', greeting: 'Hello! I’m Dinsoni. I can search the live directory and take you to the page you need.',
+    title: 'AI', greeting: 'Hello! I’m your AI assistant. I can search the live directory and take you to the page you need.',
     hint: 'Type or speak about businesses, categories, settlements, or the administrator page.',
     placeholder: 'Type your question…', send: 'Send', open: 'Open', listening: 'Listening…',
     micUnsupported: 'Speech recognition is not supported in this browser.', micDenied: 'Allow microphone access in your browser to speak to the assistant.',
@@ -44,7 +44,7 @@ const copy = {
     stopVoice: 'Stop speaking', stopMic: 'Stop microphone', mic: 'Speak to the assistant', close: 'Close assistant',
     you: 'You', error: 'Could not reach the assistant. Please try again.',
     voiceMode: 'Continuous voice conversation', voiceModeOff: 'Turn off voice conversation', mute: 'Mute spoken replies', unmute: 'Unmute spoken replies',
-    statusListening: 'Listening to you', statusProcessing: 'Processing your request', statusSpeaking: 'Dinsoni is speaking', statusReady: 'Voice conversation is active',
+    statusListening: 'Listening to you', statusProcessing: 'Processing your request', statusSpeaking: 'The AI assistant is speaking', statusReady: 'Voice conversation is active',
     voicePrivacy: 'Your browser handles speech recognition; only the text transcript is sent to the assistant. This site does not save audio.',
     voiceErrors: {
       'recognition-unsupported': 'Speech recognition is not supported in this browser. You can type your message instead.',
