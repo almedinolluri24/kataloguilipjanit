@@ -424,7 +424,7 @@ export default function SiteAiAssistant() {
         </form>
       </section>}
       <button type="button" className={`site-ai-launcher ${open ? 'open' : ''}`} onClick={() => setOpen((value) => !value)} aria-label={open ? text.close : text.title} aria-expanded={open}>
-        {open ? <X size={23} /> : <><Sparkles size={18} /><span>AI {text.title}</span></>}
+        {open ? <X size={23} /> : <><Sparkles size={18} /><span>{text.title}</span></>}
       </button>
     </div>
   );
