@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import L from 'leaflet';
 import { MapPin, AlertTriangle } from 'lucide-react';
 
@@ -20,13 +20,13 @@ export default function MultiBusinessMap({
   const [mapError, setMapError] = useState(false);
 
   // Filtrojmë vetëm bizneset që kanë koordinata reale valide
-  const validBusinesses = businesses.filter(
+  const validBusinesses = useMemo(() => businesses.filter(
     (business) => business
       && business.latitude !== null && business.latitude !== ''
       && business.longitude !== null && business.longitude !== ''
       && Number.isFinite(Number(business.latitude))
       && Number.isFinite(Number(business.longitude))
-  );
+  ), [businesses]);
 
   useEffect(() => {
     if (!mapContainerRef.current || mapError) return;
@@ -55,7 +55,7 @@ export default function MultiBusinessMap({
       }).addTo(map);
 
       // Pin icon
-      const createCustomIcon = (name) => {
+      const createCustomIcon = () => {
         return L.divIcon({
           className: 'custom-business-marker',
           html: `
@@ -139,7 +139,7 @@ export default function MultiBusinessMap({
         mapInstanceRef.current = null;
       }
     };
-  }, [validBusinesses.length, validBusinesses.map(b => b.id).join(','), mapError]);
+  }, [validBusinesses, mapError]);
 
   return (
     <div className="multi-map-wrapper" style={{ marginTop: '1.25rem', marginBottom: '1.25rem' }}>

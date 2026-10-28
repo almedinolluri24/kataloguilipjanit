@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   User,
   Mail,
@@ -21,9 +21,6 @@ import {
   Camera,
   Upload,
   Bell,
-  BellOff,
-  UserCheck,
-  FileText,
   Settings
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -49,8 +46,12 @@ export default function AdminProfile({ adminUser, onBack, onLogout, onUserUpdate
   const [isSavingProfile, setIsSavingProfile] = useState(false);
   const [avatarFile, setAvatarFile] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(null);
-  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const fileInputRef = useRef(null);
+  const previewUrlRef = useRef(null);
+
+  useEffect(() => () => {
+    if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
+  }, []);
 
   // Change Password state
   const [currentPassword, setCurrentPassword] = useState('');
@@ -83,11 +84,7 @@ export default function AdminProfile({ adminUser, onBack, onLogout, onUserUpdate
   const [isSavingSettings, setIsSavingSettings] = useState(false);
 
   // Load profile from API
-  useEffect(() => {
-    loadProfile();
-  }, []);
-
-  const loadProfile = async () => {
+  const loadProfile = useCallback(async () => {
     setIsLoadingProfile(true);
     try {
       const res = await api.admin.getProfile();
@@ -100,12 +97,14 @@ export default function AdminProfile({ adminUser, onBack, onLogout, onUserUpdate
       if (res.user.notification_preferences) {
         setNotifications(res.user.notification_preferences);
       }
-    } catch (err) {
+    } catch {
       addToast?.('Dështoi ngarkimi i profilit.', 'error');
     } finally {
       setIsLoadingProfile(false);
     }
-  };
+  }, [addToast]);
+
+  useEffect(() => { loadProfile(); }, [loadProfile]);
 
   // Handle avatar file selection
   const handleAvatarChange = (e) => {
@@ -120,7 +119,9 @@ export default function AdminProfile({ adminUser, onBack, onLogout, onUserUpdate
         return;
       }
       setAvatarFile(file);
-      setAvatarPreview(URL.createObjectURL(file));
+      if (previewUrlRef.current) URL.revokeObjectURL(previewUrlRef.current);
+      previewUrlRef.current = URL.createObjectURL(file);
+      setAvatarPreview(previewUrlRef.current);
     }
   };
 
@@ -213,7 +214,7 @@ export default function AdminProfile({ adminUser, onBack, onLogout, onUserUpdate
       setProfile(prev => ({ ...prev, ...res.user }));
       addToast?.('Preferencat u ruajtën me sukses!', 'success');
       setTimeout(() => setActiveView('view'), 1000);
-    } catch (err) {
+    } catch {
       addToast?.('Dështoi ruajtja e preferencave.', 'error');
     } finally {
       setIsSavingSettings(false);
@@ -1341,18 +1342,6 @@ const labelStyle = {
   fontWeight: 600,
   color: 'var(--text-primary)',
   marginBottom: '0.5rem'
-};
-
-const inputStyle = {
-  width: '100%',
-  padding: '0.75rem 1rem',
-  border: '1px solid var(--border-color)',
-  borderRadius: 'var(--radius-md)',
-  background: 'var(--bg-tertiary)',
-  color: 'var(--text-primary)',
-  fontSize: '0.9375rem',
-  outline: 'none',
-  transition: 'all var(--transition-fast)'
 };
 
 const eyeBtnStyle = {

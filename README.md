@@ -38,6 +38,8 @@ cd frontend
 npm install
 npm run dev
 ```
+
+Për API në një adresë tjetër, kopjoni `frontend/.env.example` në `frontend/.env` dhe caktoni `VITE_API_BASE_URL` (p.sh. `http://127.0.0.1:8000/api`). Ky është konfigurim publik i adresës së API-së; mos vendosni çelësa sekretë në ndryshoret `VITE_*`.
 Portali publik do të jetë i qasshëm në: `http://localhost:5173`
 
 ---

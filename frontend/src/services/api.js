@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://127.0.0.1:8000/api';
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api').replace(/\/$/, '');
 
 const TOKEN_KEY = 'katalogu_lipjan_admin_token';
 const USER_KEY = 'katalogu_lipjan_admin_user';
@@ -37,7 +37,7 @@ async function request(endpoint, options = {}) {
   };
 
   // Only set Content-Type for non-FormData requests
-  if (!(options.body instanceof FormData)) {
+  if (options.body && !(options.body instanceof FormData)) {
     headers['Content-Type'] = 'application/json';
   }
 

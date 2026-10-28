@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { MapPin, Star, Phone, ArrowRight } from 'lucide-react';
-import { businessService } from '../services/businessService';
 
 export default function BusinessCard({ business }) {
   const { tr } = useLanguage();
@@ -10,12 +9,9 @@ export default function BusinessCard({ business }) {
 
   if (!business) return null;
 
-  // Mbështetje si për API Eloquent relations ashtu edhe për mock data
-  const categoryName = business.category?.name ||
-    businessService.getCategoryById(business.category_id || business.categoryId)?.name;
-
-  const settlementName = business.settlement?.name ||
-    businessService.getSettlementById(business.settlement_id || business.settlementId)?.name;
+  // Përdorim vetëm relacionet reale që vijnë nga API; mos shpikim etiketa nga të dhëna demo lokale.
+  const categoryName = business.category?.name;
+  const settlementName = business.settlement?.name;
 
   const coverImage = business.cover_image || business.coverImage;
   const shortDesc = business.short_description || business.shortDescription || business.description;

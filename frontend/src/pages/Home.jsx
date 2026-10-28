@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   Sparkles,
@@ -6,8 +6,6 @@ import {
   ShieldCheck,
   MapPin,
   TrendingUp,
-  Store,
-  Compass,
   Loader2,
   AlertCircle,
   RefreshCw
@@ -17,9 +15,10 @@ import SearchBar from '../components/SearchBar';
 import CategoryCard from '../components/CategoryCard';
 import BusinessCard from '../components/BusinessCard';
 import AdvertisementBanner from '../components/AdvertisementBanner';
-import ParticleBackground from '../components/ParticleBackground';
 import { api } from '../services/api';
 import { useLanguage } from '../contexts/LanguageContext';
+
+const ParticleBackground = lazy(() => import('../components/ParticleBackground'));
 
 export default function Home() {
   const { tr, language } = useLanguage();
@@ -80,7 +79,7 @@ export default function Home() {
     <div className="home-page-container">
       {/* Hero Section */}
       <section className="hero-wrapper">
-        <ParticleBackground />
+        <Suspense fallback={null}><ParticleBackground /></Suspense>
         <div className="container hero-content">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

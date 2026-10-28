@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, ArrowRight, Search, Building2, Info, Loader2 } from 'lucide-react';
+import { MapPin, ArrowRight, Search, Building2, Loader2, AlertCircle, RefreshCw } from 'lucide-react';
 import { api } from '../services/api';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -9,16 +9,26 @@ export default function Settlements() {
   const [settlements, setSettlements] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [loadError, setLoadError] = useState(false);
 
-  useEffect(() => {
-    api.public.getSettlements()
-      .then((data) => setSettlements(data || []))
-      .catch((err) => console.error('Error fetching settlements:', err))
-      .finally(() => setIsLoading(false));
+  const loadSettlements = useCallback(async () => {
+    setIsLoading(true);
+    setLoadError(false);
+    try {
+      const data = await api.public.getSettlements();
+      setSettlements(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Gabim gjatë ngarkimit të vendbanimeve:', error);
+      setLoadError(true);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
+  useEffect(() => { loadSettlements(); }, [loadSettlements]);
+
   const filteredSettlements = settlements.filter((s) =>
-    s.name.toLowerCase().includes(search.toLowerCase()) ||
+    (s.name || '').toLowerCase().includes(search.toLowerCase()) ||
     (s.description || '').toLowerCase().includes(search.toLowerCase())
   );
 
@@ -75,6 +85,18 @@ export default function Settlements() {
         {isLoading ? (
           <div style={{ textAlign: 'center', padding: '2rem 0' }}>
             <Loader2 className="animate-spin" size={36} color="#0d9488" style={{ margin: '0 auto' }} />
+          </div>
+        ) : loadError ? (
+          <div role="alert" className="empty-state-card" style={{ padding: '2rem', textAlign: 'center' }}>
+            <AlertCircle size={30} color="#dc2626" style={{ margin: '0 auto 0.75rem' }} />
+            <p>{tr('Vendbanimet nuk u ngarkuan. Kontrolloni lidhjen dhe provoni përsëri.')}</p>
+            <button type="button" className="btn btn-outline btn-sm" onClick={loadSettlements} disabled={isLoading}>
+              <RefreshCw size={14} className={isLoading ? 'animate-spin' : ''} /> {tr('Rifresko')}
+            </button>
+          </div>
+        ) : filteredSettlements.length === 0 ? (
+          <div role="status" className="empty-state-card" style={{ padding: '2rem', textAlign: 'center' }}>
+            {tr(search ? 'Nuk u gjet asnjë vendbanim për këtë kërkim.' : 'Nuk ka vendbanime për t’u shfaqur.')}
           </div>
         ) : (
           <div className="settlements-grid">

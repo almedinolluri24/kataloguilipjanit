@@ -7,7 +7,6 @@ import {
   Search,
   Edit2,
   Trash2,
-  ShieldAlert,
   ShieldCheck,
   CheckCircle,
   Clock,
@@ -19,9 +18,7 @@ import {
   Moon,
   Lock,
   Loader2,
-  Calendar,
   AlertTriangle,
-  UserCheck,
   ChevronLeft,
   ChevronRight,
   UserPlus,
@@ -29,7 +26,7 @@ import {
   Mail,
   Send
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import AdminSidebar from '../components/AdminSidebar';
 import AdminProfile from '../components/AdminProfile';

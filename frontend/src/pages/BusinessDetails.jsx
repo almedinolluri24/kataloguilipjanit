@@ -24,7 +24,7 @@ export default function BusinessDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToast } = useToast();
-  const { tr, language } = useLanguage();
+  const { tr } = useLanguage();
 
   const [business, setBusiness] = useState(null);
   const [relatedBusinesses, setRelatedBusinesses] = useState([]);
@@ -58,7 +58,7 @@ export default function BusinessDetails() {
     }
   };
 
-  const todayIndex = new Date().getDay(); // 0 is Sunday, 6 is Saturday
+  const [todayIndex] = useState(() => new Date().getDay()); // 0 is Sunday, 6 is Saturday
   const fallbackUrl = 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80';
 
   if (isLoading) {

@@ -5,7 +5,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 
 export default function Footer() {
   const { tr, language } = useLanguage();
-  const currentYear = new Date().getFullYear();
+  const [currentYear] = React.useState(() => new Date().getFullYear());
 
   return (
     <footer className="site-footer">
