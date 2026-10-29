@@ -7,7 +7,7 @@ import AdvertisementBanner from '../components/AdvertisementBanner';
 import MultiBusinessMap from '../components/MultiBusinessMap';
 import { api } from '../services/api';
 import { Loader2, AlertCircle, RefreshCw } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 
 export default function Businesses() {
   const { tr, language } = useLanguage();

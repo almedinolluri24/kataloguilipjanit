@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, ArrowRight, Search, Building2, Loader2, AlertCircle, RefreshCw } from 'lucide-react';
 import { api } from '../services/api';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 
 export default function Settlements() {
   const { tr } = useLanguage();

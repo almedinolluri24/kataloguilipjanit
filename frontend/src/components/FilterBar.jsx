@@ -1,6 +1,6 @@
 import React from 'react';
 import { Search, X, RotateCcw, Globe, Clock } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 
 export default function FilterBar({
   categories = [],

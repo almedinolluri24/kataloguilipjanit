@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 import { MapPin, Star, Phone, ArrowRight } from 'lucide-react';
 
 export default function BusinessCard({ business }) {

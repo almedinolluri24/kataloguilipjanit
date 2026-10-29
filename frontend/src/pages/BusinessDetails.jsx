@@ -17,8 +17,8 @@ import {
 import LeafletMap from '../components/LeafletMap';
 import BusinessCard from '../components/BusinessCard';
 import { api } from '../services/api';
-import { useToast } from '../components/Toast';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useToast } from '../components/useToast';
+import { useLanguage } from '../contexts/useLanguage';
 
 export default function BusinessDetails() {
   const { id } = useParams();

@@ -16,7 +16,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { api } from '../services/api';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 
 const ICON_MAP = {
   UtensilsCrossed,

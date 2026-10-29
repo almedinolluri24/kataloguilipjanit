@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { LanguageContext } from './LanguageContextStore';
 
 const dictionaries = {
   sq: {
@@ -436,13 +437,6 @@ const englishText = {
   "Ky veprim nuk mund të kthehet prapa.": "This action cannot be undone.",
   "Po, vazhdo": "Yes, continue",
   "Mbyll dialogun": "Close dialog"
-};
-
-const LanguageContext = createContext(null);
-export const useLanguage = () => {
-  const context = useContext(LanguageContext);
-  if (!context) throw new Error('useLanguage must be used within LanguageProvider');
-  return context;
 };
 
 export function LanguageProvider({ children }) {

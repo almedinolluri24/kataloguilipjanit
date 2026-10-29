@@ -1,7 +1,7 @@
 import React from 'react';
 import BusinessCard from './BusinessCard';
 import { SearchX, RotateCcw } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 
 export default function BusinessGrid({
   businesses = [],

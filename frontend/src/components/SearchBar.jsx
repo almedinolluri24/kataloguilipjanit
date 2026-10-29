@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Search, X, ArrowRight } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 
 export default function SearchBar({
   initialValue = '',
@@ -11,10 +11,12 @@ export default function SearchBar({
 }) {
   const { tr } = useLanguage();
   const [term, setTerm] = useState(initialValue);
+  const [previousInitialValue, setPreviousInitialValue] = useState(initialValue);
 
-  useEffect(() => {
+  if (initialValue !== previousInitialValue) {
+    setPreviousInitialValue(initialValue);
     setTerm(initialValue);
-  }, [initialValue]);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { AudioLines, Building2, Layers, MapPin, MessageCircle, Mic, MicOff, Send, Sparkles, Square, Volume2, VolumeX, X } from 'lucide-react';
 import { api } from '../services/api';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 import useVoiceConversation from '../hooks/useVoiceConversation';
 import dinsoniLogo from '../assets/dinsoni-ai-mark.svg';
 

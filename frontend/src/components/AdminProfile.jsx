@@ -25,7 +25,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { api, authStorage } from '../services/api';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 
 export default function AdminProfile({ adminUser, onBack, onLogout, onUserUpdate, addToast }) {
   const { t, tr, language } = useLanguage();

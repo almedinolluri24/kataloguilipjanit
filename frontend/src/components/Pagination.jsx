@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 
 export default function Pagination({ currentPage = 1, totalPages = 1, onPageChange }) {
   const { tr, language } = useLanguage();

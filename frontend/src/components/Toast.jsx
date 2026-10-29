@@ -1,8 +1,7 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
-
-const ToastContext = createContext(null);
+import { ToastContext } from './ToastContextStore';
+import { useLanguage } from '../contexts/useLanguage';
 
 export function ToastProvider({ children }) {
   const { tr } = useLanguage();
@@ -45,14 +44,4 @@ export function ToastProvider({ children }) {
       </div>
     </ToastContext.Provider>
   );
-}
-
-export function useToast() {
-  const ctx = useContext(ToastContext);
-  if (!ctx) {
-    return {
-      addToast: (msg) => console.log('Toast:', msg)
-    };
-  }
-  return ctx;
 }

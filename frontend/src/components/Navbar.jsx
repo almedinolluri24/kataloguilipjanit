@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { Building2, Menu, X, PlusCircle, ShieldCheck, MapPin, Grid, Moon, Sun, Bot } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/useTheme';
+import { useLanguage } from '../contexts/useLanguage';
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);

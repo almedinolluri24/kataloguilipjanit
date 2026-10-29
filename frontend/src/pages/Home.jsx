@@ -16,7 +16,7 @@ import CategoryCard from '../components/CategoryCard';
 import BusinessCard from '../components/BusinessCard';
 import AdvertisementBanner from '../components/AdvertisementBanner';
 import { api } from '../services/api';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 
 const ParticleBackground = lazy(() => import('../components/ParticleBackground'));
 

@@ -33,9 +33,9 @@ import AdminProfile from '../components/AdminProfile';
 import BusinessModal from '../components/BusinessModal';
 import ConfirmModal from '../components/ConfirmModal';
 import { api, authStorage } from '../services/api';
-import { useToast } from '../components/Toast';
-import { useTheme } from '../contexts/ThemeContext';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useToast } from '../components/useToast';
+import { useTheme } from '../contexts/useTheme';
+import { useLanguage } from '../contexts/useLanguage';
 
 export default function AdminDashboard() {
   const { addToast } = useToast();

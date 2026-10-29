@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Megaphone, ExternalLink, ArrowRight, PlusCircle } from 'lucide-react';
 import { api } from '../services/api';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../contexts/useLanguage';
 
 export default function AdvertisementBanner({ placement = 'banner-home' }) {
   const { tr } = useLanguage();

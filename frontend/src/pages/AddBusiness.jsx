@@ -8,8 +8,8 @@ import {
   Sparkles
 } from 'lucide-react';
 import { api } from '../services/api';
-import { useToast } from '../components/Toast';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useToast } from '../components/useToast';
+import { useLanguage } from '../contexts/useLanguage';
 
 export default function AddBusiness() {
   const { tr, language } = useLanguage();
