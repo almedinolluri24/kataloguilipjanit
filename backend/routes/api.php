@@ -84,6 +84,12 @@ Route::prefix('admin')->middleware('admin.auth')->group(function () {
     Route::put('/settlements/{id}', [AdminController::class, 'updateSettlement']);
     Route::delete('/settlements/{id}', [AdminController::class, 'deleteSettlement']);
 
+    // Shërbimet CRUD
+    Route::get('/services', [AdminController::class, 'services']);
+    Route::post('/services', [AdminController::class, 'storeService']);
+    Route::put('/services/{id}', [AdminController::class, 'updateService']);
+    Route::delete('/services/{id}', [AdminController::class, 'deleteService']);
+
     // Reklamat CRUD
     Route::get('/advertisements', [AdminController::class, 'advertisements']);
     Route::post('/advertisements', [AdminController::class, 'storeAdvertisement']);

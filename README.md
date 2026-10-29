@@ -3,6 +3,14 @@
 Platformë **Full-Stack** për gjetjen, kërkimin, filtrimin dhe kontaktimin e bizneseve në territorin e Komunës së Lipjanit.  
 Projekt studentor i bazuar në dokumentin zyrtar `Projekti-01-Katalogu-i-bizneseve.pdf` (Shkolla Digjitale Lipjan, Praktika Profesionale 2026/27). Përputhja me kërkesat duhet verifikuar me skenarët e testimit para dorëzimit.
 
+## Pamje nga aplikacioni
+
+Pamje reale e faqes kryesore gjatë ekzekutimit lokal:
+
+![Faqja kryesore e Katalogut të Lipjanit](docs/screenshots/home.png)
+
+![Katalogu i bizneseve me filtra dhe të dhëna nga API-ja](docs/screenshots/businesses.png)
+
 ---
 
 ## 🛠️ Staku Teknologjik
@@ -80,7 +88,7 @@ Portali publik do të jetë i qasshëm në: `http://localhost:5173`
    - **Statistika Reale**: Numri i bizneseve të publikuara, drafteve, të arkivuara dhe reklamave aktive direkt nga baza e të dhënave MySQL.
    - **CRUD Bizneseve**: Shtim, modifikim, ndryshim të shpejtë të statusit (`published`, `draft`, `archived`) dhe fshirje me konfirmim duke treguar emrin e biznesit.
    - **Rregulli i Arkivimit**: Kur një biznes arkivohet, reklamat e tij të lidhura çaktivizohen automatikisht.
-   - **CRUD Kategorive & Vendbanimeve**: Me mbrojtje nga fshirja e lidhjeve (një kategori në përdorim nuk mund të fshihet pa u zhvendosur bizneset).
+   - **CRUD Kategorive, Vendbanimeve & Shërbimeve**: Shtim, ndryshim dhe fshirje nga databaza; fshirja bllokohet kur biznesi përdor shërbimin/kategorinë/vendbanimin. Ndryshimi i emrit të shërbimit përditëson etiketat e lidhura të bizneseve.
    - **Menaxhimi i Reklamave**: Mbështetje për të 4 statuset: `active`, `scheduled`, `expired`, `disabled` me kontroll të periudhës kohore dhe prioriteteve.
 
 5. **Asistenti lokal i katalogut**:
@@ -124,29 +132,21 @@ npm run build
 
 ---
 
-## 🧪 Raporti historik i testimit të skenarëve zyrtarë (T-01 deri T-14)
+## 🧪 Testimi
 
-Rezultatet në tabelën më poshtë janë shënuar më 18 tetor 2026 dhe nuk janë riekzekutuar për snapshot-in aktual. Shih shënimin në `TEST_REPORT.md`; mos i konsidero verifikim të versionit aktual pa i përsëritur në databazë të veçantë testimi.
+Ekzekutoni testet backend në SQLite të përkohshme (nuk prekin databazën tuaj MySQL):
 
-Skripti i automatizuar i testimit ndodhet në `backend/test_scenarios.php`.  
-Ekzekutimi: `php backend/test_scenarios.php`
+```bash
+cd backend
+php artisan test
+```
 
-| Kodi | Skenari i Testimit | Rezultati | Statusi |
-|---|---|---|---|
-| **T-01** | Vizitori kërkon një emër biznesi | U gjet biznesi i kërkuar me SQL LIKE | **PASS** |
-| **T-02** | Vizitori kombinon kategori dhe vendbanim | Të gjitha rezultatet plotësojnë të dy kushtet | **PASS** |
-| **T-03** | Vizitori aktivizon filtrin për website | Shfaqen vetëm bizneset me uebfaqe të regjistruar | **PASS** |
-| **T-04** | Vizitori kalon te faqja tjetër | Faqezimi respekton 12 biznese për faqe | **PASS** |
-| **T-05** | Vizitori rifreskon linkun e filtruar | Parametrat në URL kthejnë saktësisht të njëjtat rezultate | **PASS** |
-| **T-06** | Vizitori hap një profil | Informacioni, kontakti dhe pin-i i përkasin të njëjtit biznes | **PASS** |
-| **T-07** | Kërkimi nuk ka përputhje | Shfaqet gjendja pa rezultate me butonin "Pastro filtrat" | **PASS** |
-| **T-08** | Administratori shton dhe publikon biznesin | Biznesi ruhet në MySQL dhe shfaqet menjëherë publikisht | **PASS** |
-| **T-09** | Administratori ndryshon kontaktin | Telefoni i ri pasqyrohet në bazën e të dhënave dhe profil | **PASS** |
-| **T-10** | Administratori shton kategori | Kategoria e re bëhet e disponueshme pa ndryshuar kodin | **PASS** |
-| **T-11** | Administratori arkivon biznesin | Biznesi i arkivuar kthen 404 dhe reklamat e tij fshihen | **PASS** |
-| **T-12** | Vizitori tenton veprim administrativ | Backend-i e refuzon kërkesën e paautorizuar (HTTP 401/403) | **PASS** |
-| **T-13** | Reklama arrin kohën e mbarimit | Reklamat e skaduara nuk shërbehen në API publike | **PASS** |
-| **T-14** | Harta ose rrjeti dështojnë | Adresa tekstuale dhe telefonat mbeten plotësisht të përdorshëm | **PASS** |
+Kontrolloni frontend-in:
 
-**Rezultati përfundimtar: 14 / 14 TESTE KALUAN ME SUKSES (PASS).**
-Dokumentacioni shtesë: `REQUIREMENTS_CHECKLIST.md` dhe `TEST_REPORT.md`.
+```bash
+cd frontend
+npm run lint
+npm run build
+```
+
+Rezultatet e fundit dhe gjendja e secilit skenar T-01–T-14 dokumentohen te `TEST_REPORT.md`. Testet automatike të API-së nuk zëvendësojnë provat vizuale në shfletues. Para dorëzimit, përsëritni provat manuale të pambyllura dhe regjistroni demonstrimin/prezantimin e kërkuar.

@@ -8,7 +8,8 @@ import {
   ShieldCheck,
   LogOut,
   UserCheck,
-  User
+  User,
+  BriefcaseBusiness
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/useLanguage';
@@ -19,6 +20,7 @@ export default function AdminSidebar({ activeTab, onSelectTab, onLogout, adminUs
     { id: 'dashboard', label: t('dashboard'), icon: LayoutDashboard },
     { id: 'businesses', label: t('manageBusinesses'), icon: Store },
     { id: 'categories', label: t('manageCategories'), icon: Layers },
+    { id: 'services', label: t('manageServices'), icon: BriefcaseBusiness },
     { id: 'ads', label: t('ads'), icon: Megaphone },
     { id: 'profile', label: t('profile'), icon: User }
   ];

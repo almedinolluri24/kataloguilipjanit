@@ -1,6 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
+import { AlertTriangle } from 'lucide-react';
 import { useLanguage } from '../contexts/useLanguage';
+
+const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+}[character]));
 
 export default function LeafletMap({
   coordinates = { lat: 42.5217, lng: 21.1258 },
@@ -12,9 +21,10 @@ export default function LeafletMap({
   const { tr } = useLanguage();
   const mapContainerRef = useRef(null);
   const mapInstanceRef = useRef(null);
+  const [mapError, setMapError] = useState(false);
 
   useEffect(() => {
-    if (!mapContainerRef.current) return;
+    if (!mapContainerRef.current || mapError) return undefined;
 
     const lat = coordinates?.lat || 42.5217;
     const lng = coordinates?.lng || 21.1258;
@@ -29,16 +39,23 @@ export default function LeafletMap({
     const map = L.map(mapContainerRef.current, {
       center: [lat, lng],
       zoom: zoom,
-      scrollWheelZoom: false
+      scrollWheelZoom: false,
+      zoomAnimation: false,
+      fadeAnimation: false,
+      markerZoomAnimation: false
     });
 
     mapInstanceRef.current = map;
 
     // OpenStreetMap tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19
-    }).addTo(map);
+    });
+    tileLayer.once('tileerror', () => {
+      if (mapInstanceRef.current === map) setMapError(true);
+    });
+    tileLayer.addTo(map);
 
     // Custom modern Teal SVG Marker Pin to prevent broken default Leaflet assets
     const customIcon = L.divIcon({
@@ -75,8 +92,8 @@ export default function LeafletMap({
 
     const popupHtml = `
       <div style="font-family: inherit; padding: 4px;">
-        <strong style="color: #0f172a; font-size: 14px; display: block; margin-bottom: 2px;">${title}</strong>
-        <span style="color: #64748b; font-size: 12px;">${address}</span>
+        <strong style="color: #0f172a; font-size: 14px; display: block; margin-bottom: 2px;">${escapeHtml(title)}</strong>
+        <span style="color: #64748b; font-size: 12px;">${escapeHtml(address)}</span>
       </div>
     `;
 
@@ -84,18 +101,29 @@ export default function LeafletMap({
 
     return () => {
       if (mapInstanceRef.current) {
+        mapInstanceRef.current.stop();
+        mapInstanceRef.current.off();
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
       }
     };
-  }, [coordinates, title, address, zoom]);
+  }, [coordinates, title, address, zoom, mapError]);
 
   return (
-    <div
-      ref={mapContainerRef}
-      className="map-container-box"
-      style={{ height: height }}
-      aria-label={`${tr('Harta për')} ${title}`}
-    />
+    mapError ? (
+      <div className="details-muted-surface" role="status" style={{ minHeight: height, padding: '2rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+        <AlertTriangle size={30} color="#d97706" style={{ marginBottom: '0.75rem' }} />
+        <strong>{tr('Harta nuk mund të ngarkohej për momentin')}</strong>
+        <span className="details-supporting-text" style={{ marginTop: '0.4rem' }}>{address}</span>
+        <span className="details-supporting-text" style={{ fontSize: '0.8125rem', marginTop: '0.25rem' }}>{tr('Përdorni adresën dhe kontaktet e biznesit.')}</span>
+      </div>
+    ) : (
+      <div
+        ref={mapContainerRef}
+        className="map-container-box"
+        style={{ height: height }}
+        aria-label={`${tr('Harta për')} ${title}`}
+      />
+    )
   );
 }

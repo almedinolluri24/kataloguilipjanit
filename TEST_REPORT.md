@@ -1,28 +1,41 @@
-# RAPORTI I TESTIMIT (TEST_REPORT.md)
-Sipas Kapitullit 9 të Dokumentit Zyrtar: `Projekti-01-Katalogu-i-bizneseve.pdf` (Versioni 1.0)
-Data e ekzekutimit: 18 Tetor 2026
-Mjedisi: React 19 (Frontend) · Laravel 12 (Backend API) · MySQL 10.4 (MariaDB)
+# Raporti i testimit
 
-> **Shënim i auditimit (25 tetor 2026):** Rezultatet PASS më poshtë janë regjistrim historik i këtij dokumenti dhe nuk janë riekzekutuar/verifikuar në snapshot-in aktual të projektit. Git-i ka vetëm commit-in fillestar të regjistruar më 25 tetor 2026, pas datës së këtij raporti. Prandaj mos i paraqit si prova të verifikuara të versionit aktual derisa testet të ekzekutohen përsëri në databazë të veçantë testimi. Skenari T-10 shton kategori dhe nuk duhet ekzekutuar në databazën me të dhëna reale pa pastrim të kontrolluar.
+Përditësuar më **29 tetor 2026**. Testet e backend-it përdorin SQLite në memorie (`backend/phpunit.xml`) dhe nuk ndryshojnë databazën lokale MySQL.
 
-| ID | Skenari i Testimit | Rezultati i Pritshëm | Rezultati Real | Statusi (PASS / FAIL) | Shënime & Detaje |
-|---|---|---|---|---|---|
-| **T-01** | Vizitori kërkon një emër biznesi | Shfaqen bizneset që përputhen me kërkimin | U kërkua termi "Vila" dhe u kthye "Restorant Vila Lipjani" | **PASS** | Kërkim me tekst case-insensitive me SQL LIKE |
-| **T-02** | Vizitori kombinon kategori dhe vendbanim | Të gjitha rezultatet plotësojnë të dy kushtet | U filtruan kategoria "gastronomi" dhe vendbanimi "lipjan" | **PASS** | Të gjitha rezultatet plotësojnë të dy kushtet njëkohësisht |
-| **T-03** | Vizitori aktivizon filtrin për website | Shfaqen vetëm bizneset me website të regjistruar | U aktivizua `has_website=1` | **PASS** | Të gjitha 12 bizneset e kthyera kanë uebfaqe të vlefshme |
-| **T-04** | Vizitori kalon te faqja tjetër | Rezultatet mbeten të renditura dhe filtrat ruhen | Faqja 1 kthen 12 biznese, Faqja 2 kthen 12 biznese | **PASS** | Faqezimi respekton 12 biznese për faqe sipas PDF faqe 5 |
-| **T-05** | Vizitori rifreskon linkun e filtruar | Zgjedhjet rikthehen nga adresa e faqes | URL me parametra `category=auto&settlement=magure` | **PASS** | Konsistencë 100% pas rifreskimit të adresës |
-| **T-06** | Vizitori hap një profil | Informacioni, kontakti dhe pin-i i përkasin të njëjtit biznes | Profili i "Restorant Vila Lipjani" me telefon dhe pin Leaflet | **PASS** | Koordinatat [42.5225, 21.1278] përputhen me adresën |
-| **T-07** | Kërkimi nuk ka përputhje | Shfaqet mesazh dhe mundësia për pastrim të filtrave | Kërkimi për term inekzistent kthen total: 0 | **PASS** | Aktivizohet gjendja boshe dhe butoni "Pastro filtrat" |
-| **T-08** | Administratori shton dhe publikon biznesin | Biznesi shfaqet në listë, kërkim dhe profil | Biznesi u shtua me POST në `/api/admin/businesses` | **PASS** | U ruajt në MySQL me ID reale dhe u shfaq në profilin publik |
-| **T-09** | Administratori ndryshon kontaktin | Kontakti i ri shfaqet pas përditësimit të të dhënave | Numri i telefonit u modifikua në PUT `/api/admin/businesses/{id}` | **PASS** | Kontakti i ri u pasqyrua menjëherë në profilin publik |
-| **T-10** | Administratori shton kategori | Kategoria bëhet e disponueshme në formularë dhe filtra | U shtua kategoria "Turizëm & Hoteleri" me POST në API | **PASS** | U bë menjëherë e disponueshme në API publike pa prekur React |
-| **T-11** | Administratori arkivon biznesin | Biznesi dhe reklamat e tij nuk shfaqen publikisht | Statusi u ndryshua në "archived" | **PASS** | Rruga publike kthen HTTP 404 dhe reklamat e lidhura çaktivizohen |
-| **T-12** | Vizitori tenton veprim administrativ | Backend-i e refuzon pa ndryshuar të dhënat | Kërkesë POST pa Bearer token në rrugët `/api/admin/*` | **PASS** | Backend-i ktheu HTTP 401 (Qasja u refuzua nga AdminTokenAuth) |
-| **T-13** | Reklama arrin kohën e mbarimit | Nuk shfaqet më në rifreskimin e të dhënave | Reklamat me `status = 'expired'` ose `end_time < NOW()` | **PASS** | Filtrohen në SQL dhe nuk shërbehen në API publike |
-| **T-14** | Harta ose rrjeti dështojnë | Shfaqet gjendje e qartë dhe pjesa tjetër mbetet e kuptueshme | Biznese pa koordinata gjeografike të konfiguruara | **PASS** | Adresa tekstuale dhe telefonat mbeten plotësisht të lexueshëm |
+## Kontrollet automatike të ekzekutuara
 
-### Përmbledhje:
-- **Totali i Skenarëve të Testuar**: 14
-- **Kaluan me PASS**: 14 (100%)
-- **Dështuan (FAIL)**: 0
+| Komanda | Rezultati |
+|---|---|
+| `cd backend && php artisan test` | Kaluan 22 teste me 95 pohime. Përfshihen hyrja/dalja, profili, asistenti, CRUD i shërbimeve, autorizimi, kërkimi/filtrat, faqezimi, bizneset publike, arkivimi dhe reklamat e skaduara. |
+| `cd frontend && npm run build` | Kaloi; Vite ndërtoi aplikacionin për prodhim. |
+| `cd frontend && npm run lint` | Kodi i daljes 0. Mbetën 11 paralajmërime ekzistuese `react(set-state-in-effect)`; nuk raportohet gabim sintakse apo çelës përkthimi i dyfishtë. |
+
+## Skenarët e pranimit të PDF-së
+
+Testet automatike mbulojnë pjesë të rrjedhave T-01–T-14, por nuk janë të njëjta me një provë manuale të plotë të ndërfaqes në shfletues. Shënimi më poshtë dallon provat automatike nga ato që ende kërkojnë kontroll vizual.
+
+| Skenari | Gjendja aktuale |
+|---|---|
+| T-01 Kërkimi sipas emrit | Testuar në API; mbulon normalizimin ë/e. |
+| T-02 Filtri kategori + vendbanim | Testuar në API. |
+| T-03 Filtri website | Testuar në API. |
+| T-04 Faqezimi me 12 rezultate | Testuar në API, përfshirë faqen e dytë. |
+| T-05 Rikthimi i filtrave nga URL pas rifreskimit | Kodi i URL-së është në projekt; kërkon provë në shfletues. |
+| T-06 Profili dhe koordinatat | Fushat e profilit/API-së testohen; saktësia fizike e pin-it duhet krahasuar me adresën reale. |
+| T-07 Gjendja pa rezultate | API-ja teston totalin zero; pamja dhe butoni i pastrimit kërkojnë provë në shfletues. |
+| T-08 Shtim/publikim biznesi | API-ja administrative dhe shfaqja publike testohen. |
+| T-09 Ndryshim telefoni | Ruajtja administrative dhe pasqyrimi publik testohen. |
+| T-10 Shtim kategorie | API-ja ekziston; kontrolli i shfaqjes në formularët React kërkon provë në shfletues. |
+| T-11 Arkivim biznesi dhe çaktivizim reklame | Testuar në API. |
+| T-12 Refuzim pa autorizim | Testuar në API (kërkesa pa token refuzohet). |
+| T-13 Reklamë e skaduar | Testuar në API me data relative ndaj orës aktuale. |
+| T-14 Dështim harte/rrjeti | Kërkon provë vizuale në shfletues; nuk është shënuar PASS vetëm nga testi i backend-it. |
+
+## Prova manuale që mbetet para dorëzimit
+
+- Hap faqen në telefon dhe desktop; provo filtrat, URL-në pas rifreskimit, hartën dhe gjendjen pa rezultate.
+- Hyr në panel, shto/ndrysho shërbim dhe provo se filtri përkatës del te katalogu publik.
+- Provo gabim rrjeti me API-n të ndalur dhe sigurohu që faqja jep udhëzim të kuptueshëm.
+- README tashmë përmban pamje reale të faqes kryesore te `docs/screenshots/home.png`; regjistro edhe demonstrimin/prezantimin e kërkuar nga profesori.
+
+Mos ekzekuto `migrate:fresh` ose skriptet e vjetra të testimit mbi databazën me të dhëna që duhen ruajtur. Për testet e automatizuara përdor `php artisan test`, i cili përdor databazën SQLite në memorie.

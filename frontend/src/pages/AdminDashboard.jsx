@@ -82,6 +82,7 @@ export default function AdminDashboard() {
   const [businesses, setBusinesses] = useState([]);
   const [categories, setCategories] = useState([]);
   const [settlements, setSettlements] = useState([]);
+  const [services, setServices] = useState([]);
   const [advertisements, setAdvertisements] = useState([]);
 
   // Business CRUD modal states
@@ -98,6 +99,10 @@ export default function AdminDashboard() {
   const [newSettlementIsTown, setNewSettlementIsTown] = useState(false);
   const [isAddingSettlement, setIsAddingSettlement] = useState(false);
   const [editingSettlement, setEditingSettlement] = useState(null);
+  const [serviceName, setServiceName] = useState('');
+  const [serviceCategoryId, setServiceCategoryId] = useState('');
+  const [editingService, setEditingService] = useState(null);
+  const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
 
   const [newAdTitle, setNewAdTitle] = useState('');
   const [newAdSponsor, setNewAdSponsor] = useState('');
@@ -153,11 +158,12 @@ export default function AdminDashboard() {
     if (!isAuthenticated) return;
     setIsLoadingData(true);
     try {
-      const [statsRes, bizRes, catsRes, setsRes, adsRes] = await Promise.all([
+      const [statsRes, bizRes, catsRes, setsRes, servicesRes, adsRes] = await Promise.all([
         api.admin.getStats(),
         api.admin.getBusinesses({ status: statusFilter, category: catFilter, q: searchFilter }),
         api.admin.getCategories(),
         api.admin.getSettlements(),
+        api.admin.getServices(),
         api.admin.getAdvertisements()
       ]);
 
@@ -165,6 +171,7 @@ export default function AdminDashboard() {
       setBusinesses(bizRes || []);
       setCategories(catsRes || []);
       setSettlements(setsRes || []);
+      setServices(servicesRes || []);
       setAdvertisements(adsRes || []);
     } catch (err) {
       console.error('Gabim gjatë ngarkimit të panelit admin:', err);
@@ -401,6 +408,46 @@ export default function AdminDashboard() {
         } catch (err) {
           setIsConfirmOpen(false);
           addToast(err.message || 'Nuk mund të fshihet vendbanimi.', 'error');
+        }
+      }
+    });
+    setIsConfirmOpen(true);
+  };
+
+  const handleSaveService = async (event) => {
+    event.preventDefault();
+    const payload = { name: serviceName.trim(), category_id: serviceCategoryId || null };
+    try {
+      if (editingService) {
+        await api.admin.updateService(editingService.id, payload);
+        addToast(tr('Shërbimi u përditësua me sukses.'), 'success');
+      } else {
+        await api.admin.createService(payload);
+        addToast(tr('Shërbimi u shtua me sukses.'), 'success');
+      }
+      setIsServiceModalOpen(false);
+      setEditingService(null);
+      setServiceName('');
+      setServiceCategoryId('');
+      await loadAdminData();
+    } catch (err) {
+      addToast(err.message || tr('Ruajtja e shërbimit dështoi.'), 'error');
+    }
+  };
+
+  const handleDeleteService = (service) => {
+    setConfirmConfig({
+      title: `${tr('Fshi shërbimin')} "${service.name}"?`,
+      message: tr('Shërbimet që përdoren nga biznese nuk mund të fshihen.'),
+      onConfirm: async () => {
+        try {
+          await api.admin.deleteService(service.id);
+          setIsConfirmOpen(false);
+          addToast(tr('Shërbimi u fshi me sukses.'), 'success');
+          await loadAdminData();
+        } catch (err) {
+          setIsConfirmOpen(false);
+          addToast(err.message || tr('Fshirja e shërbimit dështoi.'), 'error');
         }
       }
     });
@@ -1615,6 +1662,80 @@ export default function AdminDashboard() {
               </div>
             </div>
           </div>
+        )}
+
+        {activeTab === 'services' && (
+          <section className="admin-services-view">
+            <div className="admin-view-header">
+              <div>
+                <h1 style={{ fontSize: '1.875rem', fontWeight: 800, color: 'var(--text-primary)' }}>{t('manageServices')}</h1>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.9375rem' }}>{tr('Menaxhoni shërbimet që përdoren në filtrat dhe profilet e bizneseve.')}</p>
+              </div>
+              <button type="button" className="btn btn-primary btn-sm" onClick={() => {
+                setEditingService(null);
+                setServiceName('');
+                setServiceCategoryId('');
+                setIsServiceModalOpen(true);
+              }}><Plus size={16} /> {tr('Shto Shërbim')}</button>
+            </div>
+
+            <div className="admin-table-card">
+              <div className="table-responsive">
+                <table className="data-table">
+                  <thead><tr>
+                    <th>{tr('Shërbimi')}</th><th>{tr('Kategoria')}</th><th>{tr('Biznese')}</th><th style={{ textAlign: 'right' }}>{tr('Veprime')}</th>
+                  </tr></thead>
+                  <tbody>
+                    {services.map((service) => (
+                      <tr key={service.id}>
+                        <td><strong>{service.name}</strong></td>
+                        <td>{service.category?.name || tr('Pa kategori')}</td>
+                        <td><span className="cat-count">{service.businesses_count ?? 0}</span></td>
+                        <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                          <button type="button" className="btn btn-outline btn-sm" title={tr('Ndrysho shërbimin')} onClick={() => {
+                            setEditingService(service);
+                            setServiceName(service.name || '');
+                            setServiceCategoryId(service.category_id || '');
+                            setIsServiceModalOpen(true);
+                          }}><Edit2 size={13} /></button>
+                          <button type="button" className="btn btn-outline btn-sm" title={tr('Fshi shërbimin')} style={{ marginLeft: '6px', color: '#ef4444', borderColor: '#fca5a5' }} onClick={() => handleDeleteService(service)}><Trash2 size={13} /></button>
+                        </td>
+                      </tr>
+                    ))}
+                    {services.length === 0 && <tr><td colSpan={4} className="admin-table-empty-cell">{isLoadingData ? t('loading') : tr('Nuk ka shërbime për t’u shfaqur.')}</td></tr>}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {isServiceModalOpen && <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="service-modal-title">
+              <div className="modal-box" style={{ maxWidth: '460px' }}>
+                <div className="modal-header">
+                  <h2 className="modal-title" id="service-modal-title">{editingService ? tr('Ndrysho shërbimin') : tr('Shto Shërbim')}</h2>
+                  <button type="button" onClick={() => setIsServiceModalOpen(false)} aria-label={tr('Mbyll dialogun')} className="btn btn-outline btn-sm">×</button>
+                </div>
+                <form onSubmit={handleSaveService}>
+                  <div className="modal-body">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="service-name">{tr('Emri i shërbimit')} *</label>
+                      <input id="service-name" className="form-input" value={serviceName} onChange={(event) => setServiceName(event.target.value)} maxLength={100} required />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="service-category">{tr('Kategoria')}</label>
+                      <select id="service-category" className="form-select" value={serviceCategoryId} onChange={(event) => setServiceCategoryId(event.target.value)}>
+                        <option value="">{tr('Pa kategori')}</option>
+                        {categories.map((category) => <option value={category.id} key={category.id}>{category.name}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" className="btn btn-outline" onClick={() => setIsServiceModalOpen(false)}>{t('cancel')}</button>
+                    <button type="submit" className="btn btn-primary">{t('save')}</button>
+                  </div>
+                </form>
+              </div>
+            </div>}
+          </section>
         )}
 
         {/* TAB 4: ADVERTISEMENTS (4 statuset) */}

@@ -10,6 +10,8 @@ use App\Models\Advertisement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
@@ -334,6 +336,78 @@ class AdminController extends Controller
 
         $settlement->delete();
         return response()->json(['message' => 'Vendbanimi u fshi me sukses.']);
+    }
+
+    /**
+     * SHËRBIMET - CRUD. Bizneset i ruajnë etiketat e shërbimeve si JSON,
+     * prandaj ndryshimi i emrit sinkronizohet me to dhe fshirja e lidhur bllokohet.
+     */
+    public function services()
+    {
+        $services = Service::with('category')->orderBy('name')->get();
+        $services->each(function (Service $service) {
+            $service->businesses_count = Business::whereJsonContains('services', $service->name)->count();
+        });
+
+        return response()->json($services);
+    }
+
+    public function storeService(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:100', Rule::unique('services', 'name')],
+            'category_id' => ['nullable', 'string', 'exists:categories,id'],
+        ]);
+
+        $service = Service::create($validated);
+
+        return response()->json([
+            'message' => 'Shërbimi u shtua me sukses.',
+            'service' => $service->load('category'),
+        ], 201);
+    }
+
+    public function updateService(Request $request, $id)
+    {
+        $service = Service::findOrFail($id);
+        $validated = $request->validate([
+            'name' => ['sometimes', 'required', 'string', 'max:100', Rule::unique('services', 'name')->ignore($service->id)],
+            'category_id' => ['sometimes', 'nullable', 'string', 'exists:categories,id'],
+        ]);
+
+        DB::transaction(function () use ($service, $validated) {
+            if (isset($validated['name']) && $validated['name'] !== $service->name) {
+                Business::whereJsonContains('services', $service->name)->get()->each(function (Business $business) use ($service, $validated) {
+                    $services = collect($business->services ?? [])->map(
+                        fn ($name) => $name === $service->name ? $validated['name'] : $name
+                    )->all();
+                    $business->update(['services' => $services]);
+                });
+            }
+
+            $service->update($validated);
+        });
+
+        return response()->json([
+            'message' => 'Shërbimi u përditësua me sukses.',
+            'service' => $service->fresh('category'),
+        ]);
+    }
+
+    public function deleteService($id)
+    {
+        $service = Service::findOrFail($id);
+        $linkedBusinesses = Business::whereJsonContains('services', $service->name)->count();
+
+        if ($linkedBusinesses > 0) {
+            return response()->json([
+                'message' => "Shërbimi \"{$service->name}\" përdoret nga {$linkedBusinesses} biznese dhe nuk mund të fshihet.",
+            ], 422);
+        }
+
+        $service->delete();
+
+        return response()->json(['message' => 'Shërbimi u fshi me sukses.']);
     }
 
     /**

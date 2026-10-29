@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import L from 'leaflet';
 import { MapPin, AlertTriangle } from 'lucide-react';
+import { useLanguage } from '../contexts/useLanguage';
 
 const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (character) => ({
   '&': '&amp;',
@@ -15,6 +16,7 @@ export default function MultiBusinessMap({
   title = 'Bizneset e kësaj faqeje',
   height = '380px'
 }) {
+  const { tr } = useLanguage();
   const mapContainerRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const [mapError, setMapError] = useState(false);
@@ -31,28 +33,34 @@ export default function MultiBusinessMap({
   useEffect(() => {
     if (!mapContainerRef.current || mapError) return;
 
+    let map = null;
     try {
       if (mapInstanceRef.current) {
+        mapInstanceRef.current.stop();
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
       }
 
-      // Qendra fillestare në Lipjan
-      const defaultCenter = [42.5217, 21.1258];
-      const initialZoom = validBusinesses.length > 0 ? 13 : 14;
-
-      const map = L.map(mapContainerRef.current, {
-        center: defaultCenter,
-        zoom: initialZoom,
-        scrollWheelZoom: false
+      const firstBusiness = validBusinesses[0];
+      map = L.map(mapContainerRef.current, {
+        center: [Number(firstBusiness.latitude), Number(firstBusiness.longitude)],
+        zoom: 13,
+        scrollWheelZoom: false,
+        zoomAnimation: false,
+        fadeAnimation: false,
+        markerZoomAnimation: false
       });
 
       mapInstanceRef.current = map;
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19
-      }).addTo(map);
+      });
+      tileLayer.once('tileerror', () => {
+        if (mapInstanceRef.current === map) setMapError(true);
+      });
+      tileLayer.addTo(map);
 
       // Pin icon
       const createCustomIcon = () => {
@@ -130,11 +138,20 @@ export default function MultiBusinessMap({
       }
     } catch (err) {
       console.error('Error rendering Leaflet map:', err);
+      if (map) map.remove();
+      mapInstanceRef.current = null;
       setMapError(true);
     }
 
     return () => {
-      if (mapInstanceRef.current) {
+      if (map) {
+        map.stop();
+        if (mapInstanceRef.current === map) {
+          mapInstanceRef.current = null;
+        }
+        map.remove();
+      } else if (mapInstanceRef.current) {
+        mapInstanceRef.current.stop();
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
       }
@@ -144,20 +161,38 @@ export default function MultiBusinessMap({
   return (
     <div className="multi-map-wrapper" style={{ marginTop: '1.25rem', marginBottom: '1.25rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.85rem' }}>
-        <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <MapPin size={20} color="#0d9488" />
           <span>{title}</span>
         </h3>
-        <span style={{ fontSize: '0.8125rem', color: '#64748b' }}>
+        <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
           {validBusinesses.length} biznese me vendndodhje në këtë faqe
         </span>
       </div>
 
-      {mapError ? (
+      {validBusinesses.length === 0 ? (
+        <div role="status" style={{
+          minHeight: height,
+          boxSizing: 'border-box',
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border-color)',
+          borderRadius: '14px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '2rem',
+          textAlign: 'center',
+          color: 'var(--text-muted)'
+        }}>
+          <MapPin size={34} color="#0d9488" style={{ marginBottom: '10px' }} />
+          <p style={{ margin: 0 }}>{tr('Nuk ka biznese me koordinata të regjistruara në këtë faqe.')}</p>
+        </div>
+      ) : mapError ? (
         <div style={{
           height: height,
-          background: '#f8fafc',
-          border: '1px solid #e2e8f0',
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border-color)',
           borderRadius: '14px',
           display: 'flex',
           flexDirection: 'column',
@@ -167,11 +202,11 @@ export default function MultiBusinessMap({
           textAlign: 'center'
         }}>
           <AlertTriangle size={36} color="#d97706" style={{ marginBottom: '10px' }} />
-          <h4 style={{ color: '#0f172a', fontSize: '1rem', fontWeight: 600, marginBottom: '6px' }}>
-            Harta nuk mund të ngarkohej për momentin
+          <h4 style={{ color: 'var(--text-primary)', fontSize: '1rem', fontWeight: 600, marginBottom: '6px' }}>
+            {tr('Harta nuk mund të ngarkohej për momentin')}
           </h4>
-          <p style={{ color: '#64748b', fontSize: '0.875rem', maxWidth: '400px' }}>
-            Ju lutemi përdorni adresat dhe numrat e kontaktit të listuara në kartelat e bizneseve më poshtë.
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', maxWidth: '400px' }}>
+            {tr('Përdorni adresat dhe kontaktet e bizneseve të shfaqura në listë.')}
           </p>
         </div>
       ) : (

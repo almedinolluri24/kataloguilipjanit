@@ -262,6 +262,28 @@ export const api = {
       });
     },
 
+    // Shërbime
+    async getServices() {
+      return request('/admin/services');
+    },
+    async createService(serviceData) {
+      return request('/admin/services', {
+        method: 'POST',
+        body: JSON.stringify(serviceData)
+      });
+    },
+    async updateService(id, serviceData) {
+      return request(`/admin/services/${encodeURIComponent(id)}`, {
+        method: 'PUT',
+        body: JSON.stringify(serviceData)
+      });
+    },
+    async deleteService(id) {
+      return request(`/admin/services/${encodeURIComponent(id)}`, {
+        method: 'DELETE'
+      });
+    },
+
     // Reklama
     async getAdvertisements() {
       return request('/admin/advertisements');
