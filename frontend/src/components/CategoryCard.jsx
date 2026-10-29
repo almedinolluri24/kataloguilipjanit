@@ -30,7 +30,9 @@ export default function CategoryCard({ category, businessCount }) {
   if (!category) return null;
 
   const IconComponent = ICON_MAP[category.icon] || Layers;
-  const count = typeof businessCount === 'number' ? businessCount : (category.count || 0);
+  const count = typeof businessCount === 'number'
+    ? businessCount
+    : (category.businesses_count ?? category.count ?? 0);
 
   return (
     <Link
