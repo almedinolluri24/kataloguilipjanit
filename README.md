@@ -7,9 +7,9 @@ Projekt studentor i bazuar në dokumentin zyrtar `Projekti-01-Katalogu-i-biznese
 
 Pamje reale e faqes kryesore gjatë ekzekutimit lokal:
 
-![Faqja kryesore e Katalogut të Lipjanit](docs/screenshots/home.png)
+![Faqja kryesore e Katalogut të Lipjanit](https://raw.githubusercontent.com/almedinolluri24/kataloguilipjanit/main/docs/screenshots/home.png)
 
-![Katalogu i bizneseve me filtra dhe të dhëna nga API-ja](docs/screenshots/businesses.png)
+![Katalogu i bizneseve me filtra dhe të dhëna nga API-ja](https://raw.githubusercontent.com/almedinolluri24/kataloguilipjanit/main/docs/screenshots/businesses.png)
 
 ---
 
