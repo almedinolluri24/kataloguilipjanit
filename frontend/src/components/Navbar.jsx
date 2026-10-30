@@ -69,7 +69,7 @@ export default function Navbar() {
               title={theme === 'dark' ? tr('Ndrysho në dritë') : tr('Ndrysho në errësirë')}
               aria-label={tr('Ndrysho temën')}
             >
-              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+              {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
             </button>
             <label className="language-picker" aria-label={t('language')}>
               <span className="sr-only">{t('language')}</span>

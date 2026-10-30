@@ -145,7 +145,7 @@ export default function Home() {
 
       {loadError && (
         <div className="container" role="alert" style={{ paddingTop: '1rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', padding: '1rem 1.25rem', border: '1px solid #fecaca', borderRadius: '12px', background: 'var(--bg-card)', color: '#b91c1c' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', padding: '1rem 1.25rem', border: '1px solid color-mix(in srgb, var(--palette-teal) 26%, var(--palette-white))', borderRadius: '12px', background: 'var(--bg-card)', color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))' }}>
             <AlertCircle size={18} />
             <span>{loadError}</span>
             <button type="button" className="btn btn-outline btn-sm" onClick={loadHomeData} disabled={isLoading}>
@@ -178,7 +178,7 @@ export default function Home() {
 
           {isLoading ? (
             <div style={{ textAlign: 'center', padding: '2rem 0' }}>
-              <Loader2 className="animate-spin" size={32} color="#22d3ee" style={{ margin: '0 auto' }} />
+              <Loader2 className="animate-spin" size={32} color="var(--palette-teal)" style={{ margin: '0 auto' }} />
             </div>
           ) : (
             <motion.div
@@ -240,7 +240,7 @@ export default function Home() {
 
           {isLoading ? (
             <div style={{ textAlign: 'center', padding: '2rem 0' }}>
-              <Loader2 className="animate-spin" size={32} color="#22d3ee" style={{ margin: '0 auto' }} />
+              <Loader2 className="animate-spin" size={32} color="var(--palette-teal)" style={{ margin: '0 auto' }} />
             </div>
           ) : (
             <motion.div
@@ -288,22 +288,22 @@ export default function Home() {
             {[
               {
                 icon: ShieldCheck,
-                bg: 'rgba(16, 185, 129, 0.1)',
-                color: '#10b981',
+                bg: 'color-mix(in srgb, var(--palette-teal) 10%, transparent)',
+                color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))',
                 title: tr('Informata të Verifikuara'),
                 desc: tr('Numra telefoni të saktë, orare pune të verifikuara dhe adresa fizike të kontrolluara në terren.')
               },
               {
                 icon: MapPin,
-                bg: 'rgba(59, 130, 246, 0.1)',
-                color: '#3b82f6',
+                bg: 'color-mix(in srgb, var(--palette-teal) 10%, transparent)',
+                color: 'var(--palette-teal)',
                 title: tr('Harta Interaktive me Pin'),
                 desc: tr('Gjeni menjëherë lokacionin ekzakt përmes OpenStreetMap / Leaflet dhe udhëzimeve direkte të lëvizjes.')
               },
               {
                 icon: TrendingUp,
-                bg: 'rgba(139, 92, 246, 0.1)',
-                color: '#8b5cf6',
+                bg: 'color-mix(in srgb, var(--palette-teal) 10%, transparent)',
+                color: 'var(--palette-teal)',
                 title: tr('Mbështetje Ekonomisë Lokale'),
                 desc: tr('Promovojmë prodhuesit, zejtarët dhe ndërmarrjet e vogla në qytet dhe në të gjitha fshatrat e komunës.')
               }

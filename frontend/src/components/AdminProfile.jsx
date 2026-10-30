@@ -305,8 +305,8 @@ export default function AdminProfile({ adminUser, onBack, onLogout, onUserUpdate
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'rgba(239, 68, 68, 0.1)',
-            border: '1px solid rgba(239, 68, 68, 0.3)',
+            background: 'color-mix(in srgb, var(--palette-teal) 10%, transparent)',
+            border: '1px solid color-mix(in srgb, var(--palette-teal) 30%, transparent)',
             color: 'var(--color-danger)',
             fontSize: '0.8125rem',
             fontWeight: 600,
@@ -375,7 +375,7 @@ export default function AdminProfile({ adminUser, onBack, onLogout, onUserUpdate
                   fontSize: '2rem',
                   fontWeight: 800,
                   color: 'white',
-                  border: '4px solid ' + (avatarPreview ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.3)'),
+                  border: '4px solid ' + (avatarPreview ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.3)'),
                   boxShadow: 'var(--shadow-glow)',
                   letterSpacing: '1px',
                   flexShrink: 0,
@@ -386,11 +386,11 @@ export default function AdminProfile({ adminUser, onBack, onLogout, onUserUpdate
                 onClick={() => fileInputRef.current?.click()}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'scale(1.05)';
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.6)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.6)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'scale(1)';
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
                 }}
               >
                 {avatarPreview ? '' : getInitials(displayUser.name)}
@@ -474,8 +474,8 @@ export default function AdminProfile({ adminUser, onBack, onLogout, onUserUpdate
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
-                  background: 'rgba(16, 185, 129, 0.2)',
-                  color: '#10b981',
+                  background: 'color-mix(in srgb, var(--palette-teal) 20%, transparent)',
+                  color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))',
                   padding: '0.375rem 0.875rem',
                   borderRadius: 'var(--radius-full)',
                   fontSize: '0.75rem',
@@ -606,7 +606,7 @@ export default function AdminProfile({ adminUser, onBack, onLogout, onUserUpdate
                   exit={{ opacity: 0, y: -10 }}
                   style={{
                     background: 'var(--color-danger-bg)',
-                    border: '1px solid rgba(239, 68, 68, 0.3)',
+                    border: '1px solid color-mix(in srgb, var(--palette-teal) 30%, transparent)',
                     borderRadius: 'var(--radius-md)',
                     padding: '1rem 1.25rem',
                     color: 'var(--color-danger)',
@@ -629,7 +629,7 @@ export default function AdminProfile({ adminUser, onBack, onLogout, onUserUpdate
                   exit={{ opacity: 0, y: -10 }}
                   style={{
                     background: 'var(--color-success-bg)',
-                    border: '1px solid rgba(16, 185, 129, 0.3)',
+                    border: '1px solid color-mix(in srgb, var(--palette-teal) 30%, transparent)',
                     borderRadius: 'var(--radius-md)',
                     padding: '1rem 1.25rem',
                     color: 'var(--color-success)',
@@ -664,7 +664,7 @@ export default function AdminProfile({ adminUser, onBack, onLogout, onUserUpdate
                 onClick={() => fileInputRef.current?.click()}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = 'var(--border-glow)';
-                  e.currentTarget.style.background = 'rgba(34, 211, 238, 0.05)';
+                  e.currentTarget.style.background = 'color-mix(in srgb, var(--palette-teal) 5%, transparent)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = 'var(--border-color)';
@@ -842,7 +842,7 @@ export default function AdminProfile({ adminUser, onBack, onLogout, onUserUpdate
                   exit={{ opacity: 0, y: -10 }}
                   style={{
                     background: 'var(--color-danger-bg)',
-                    border: '1px solid rgba(239, 68, 68, 0.3)',
+                    border: '1px solid color-mix(in srgb, var(--palette-teal) 30%, transparent)',
                     borderRadius: 'var(--radius-md)',
                     padding: '1rem 1.25rem',
                     color: 'var(--color-danger)',
@@ -865,7 +865,7 @@ export default function AdminProfile({ adminUser, onBack, onLogout, onUserUpdate
                   exit={{ opacity: 0, y: -10 }}
                   style={{
                     background: 'var(--color-success-bg)',
-                    border: '1px solid rgba(16, 185, 129, 0.3)',
+                    border: '1px solid color-mix(in srgb, var(--palette-teal) 30%, transparent)',
                     borderRadius: 'var(--radius-md)',
                     padding: '1rem 1.25rem',
                     color: 'var(--color-success)',
@@ -1187,7 +1187,7 @@ function InfoCard({ icon, label, value }) {
         width: '36px',
         height: '36px',
         borderRadius: 'var(--radius-sm)',
-        background: 'rgba(34, 211, 238, 0.1)',
+        background: 'color-mix(in srgb, var(--palette-teal) 10%, transparent)',
         color: 'var(--text-accent)',
         display: 'flex',
         alignItems: 'center',
@@ -1219,19 +1219,19 @@ function ActionBtn({ icon, label, isActive, onClick, color }) {
       bg: isActive ? 'var(--gradient-secondary)' : 'transparent',
       border: isActive ? 'transparent' : 'var(--border-color)',
       color: isActive ? 'white' : 'var(--text-primary)',
-      hoverBg: 'rgba(34, 211, 238, 0.1)'
+      hoverBg: 'color-mix(in srgb, var(--palette-teal) 10%, transparent)'
     },
     violet: {
       bg: isActive ? 'var(--gradient-primary)' : 'transparent',
       border: isActive ? 'transparent' : 'var(--border-color)',
       color: isActive ? 'white' : 'var(--text-primary)',
-      hoverBg: 'rgba(139, 92, 246, 0.1)'
+      hoverBg: 'color-mix(in srgb, var(--palette-teal) 10%, transparent)'
     },
     blue: {
-      bg: isActive ? 'linear-gradient(135deg, #3b82f6, #2563eb)' : 'transparent',
+      bg: isActive ? 'linear-gradient(135deg, var(--palette-teal), var(--palette-teal))' : 'transparent',
       border: isActive ? 'transparent' : 'var(--border-color)',
       color: isActive ? 'white' : 'var(--text-primary)',
-      hoverBg: 'rgba(59, 130, 246, 0.1)'
+      hoverBg: 'color-mix(in srgb, var(--palette-teal) 10%, transparent)'
     }
   };
 
@@ -1292,7 +1292,7 @@ function NotificationToggle({ icon, label, description, checked, onChange }) {
           width: '40px',
           height: '40px',
           borderRadius: 'var(--radius-sm)',
-          background: 'rgba(34, 211, 238, 0.1)',
+          background: 'color-mix(in srgb, var(--palette-teal) 10%, transparent)',
           color: 'var(--text-accent)',
           display: 'flex',
           alignItems: 'center',

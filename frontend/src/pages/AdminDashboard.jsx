@@ -510,7 +510,7 @@ export default function AdminDashboard() {
       }}>
         <div className="admin-login-preferences">
           <button type="button" className="btn btn-outline btn-sm" onClick={toggleTheme} aria-label={theme === 'dark' ? t('themeLight') : t('themeDark')}>
-            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
           </button>
           <label className="language-picker"><span className="sr-only">{t('language')}</span><select value={language} onChange={(event) => setLanguage(event.target.value)}><option value="sq">Shqip</option><option value="en">English</option></select></label>
         </div>
@@ -667,11 +667,11 @@ export default function AdminDashboard() {
           {/* Error alerts */}
           {authMode === 'login' && loginError && (
             <div style={{
-              background: '#fef2f2',
-              border: '1px solid #fecaca',
+              background: 'color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))',
+              border: '1px solid color-mix(in srgb, var(--palette-teal) 26%, var(--palette-white))',
               borderRadius: '8px',
               padding: '10px 14px',
-              color: '#991b1b',
+              color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))',
               fontSize: '0.875rem',
               marginBottom: '1.25rem',
               display: 'flex',
@@ -685,11 +685,11 @@ export default function AdminDashboard() {
 
           {authMode === 'signup' && regError && (
             <div style={{
-              background: '#fef2f2',
-              border: '1px solid #fecaca',
+              background: 'color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))',
+              border: '1px solid color-mix(in srgb, var(--palette-teal) 26%, var(--palette-white))',
               borderRadius: '8px',
               padding: '10px 14px',
-              color: '#991b1b',
+              color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))',
               fontSize: '0.875rem',
               marginBottom: '1.25rem',
               display: 'flex',
@@ -748,7 +748,7 @@ export default function AdminDashboard() {
                   width: '100%',
                   justifyContent: 'center',
                   padding: '0.85rem',
-                  boxShadow: '0 4px 14px rgba(13, 148, 136, 0.35)',
+                  boxShadow: '0 4px 14px color-mix(in srgb, var(--palette-teal) 35%, transparent)',
                   fontWeight: 700,
                   borderRadius: '10px'
                 }}
@@ -863,8 +863,8 @@ export default function AdminDashboard() {
 
               {/* Fusha e Kodit të Ftesës me Butonin 'Dërgo në Email' */}
               <div className="form-group admin-invite-panel" style={{
-                background: 'linear-gradient(135deg, #f0fdfa 0%, #f8fafc 100%)',
-                border: '1px solid #ccfbf1',
+                background: 'linear-gradient(135deg, color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white)) 0%, color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white)) 100%)',
+                border: '1px solid color-mix(in srgb, var(--palette-teal) 26%, var(--palette-white))',
                 borderRadius: '14px',
                 padding: '18px',
                 marginBottom: '1.5rem'
@@ -874,19 +874,19 @@ export default function AdminDashboard() {
                     width: '28px',
                     height: '28px',
                     borderRadius: '8px',
-                    background: 'linear-gradient(135deg, #0d9488, #0f766e)',
+                    background: 'linear-gradient(135deg, color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy)), color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy)))',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0
                   }}>
-                    <Mail size={14} color="#ffffff" />
+                    <Mail size={14} color="var(--palette-white)" />
                   </div>
                   <div>
-                    <label className="form-label" htmlFor="reg-invite" style={{ marginBottom: 0, fontWeight: 700, color: '#0f172a', fontSize: '0.875rem' }}>
+                    <label className="form-label" htmlFor="reg-invite" style={{ marginBottom: 0, fontWeight: 700, color: 'color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy))', fontSize: '0.875rem' }}>
                       {tr('Kodi i Ftesës në Email *')}
                     </label>
-                    <p style={{ margin: 0, fontSize: '0.7rem', color: '#64748b', lineHeight: 1.3 }}>
+                    <p style={{ margin: 0, fontSize: '0.7rem', color: 'var(--palette-teal)', lineHeight: 1.3 }}>
                       {tr('Kliko butonin për të marrë kodin në email, pastaj vendose kodin këtu.')}
                     </p>
                   </div>
@@ -899,8 +899,8 @@ export default function AdminDashboard() {
                   disabled={isSendingCode || !regEmail}
                   style={{
                     width: '100%',
-                    background: 'linear-gradient(135deg, #0d9488 0%, #0f766e 100%)',
-                    color: '#ffffff',
+                    background: 'linear-gradient(135deg, color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy)) 0%, color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy)) 100%)',
+                    color: 'var(--palette-white)',
                     border: 'none',
                     padding: '10px 16px',
                     borderRadius: '10px',
@@ -912,7 +912,7 @@ export default function AdminDashboard() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '8px',
-                    boxShadow: '0 4px 12px rgba(13, 148, 136, 0.3)',
+                    boxShadow: '0 4px 12px color-mix(in srgb, var(--palette-teal) 30%, transparent)',
                     marginBottom: '12px',
                     transition: 'all 0.2s ease'
                   }}
@@ -941,19 +941,19 @@ export default function AdminDashboard() {
                     placeholder={tr('Vendose kodin')}
                     style={{
                       paddingLeft: '2.5rem',
-                      background: '#ffffff',
+                      background: 'var(--palette-white)',
                       fontWeight: 600,
                       letterSpacing: '0.05em',
                       fontSize: '0.95rem',
-                      border: '1.5px solid #e2e8f0',
+                      border: '1.5px solid color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))',
                       borderRadius: '10px'
                     }}
                   />
-                  <KeyRound size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#0d9488' }} />
+                  <KeyRound size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))' }} />
                 </div>
-                <div className="admin-invite-help" style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', marginTop: '8px', color: '#64748b', fontSize: '0.7rem', lineHeight: 1.4 }}>
-                  <Mail size={13} color="#0d9488" style={{ flexShrink: 0, marginTop: '1px' }} />
-                  <span>{tr('Kodi dërgohet në email-in tuaj:')} <strong style={{ color: regEmail ? '#0d9488' : '#94a3b8' }}>{regEmail || tr('(shkruaj email-in më lart)')}</strong></span>
+                <div className="admin-invite-help" style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', marginTop: '8px', color: 'var(--palette-teal)', fontSize: '0.7rem', lineHeight: 1.4 }}>
+                  <Mail size={13} color="color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))" style={{ flexShrink: 0, marginTop: '1px' }} />
+                  <span>{tr('Kodi dërgohet në email-in tuaj:')} <strong style={{ color: regEmail ? 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))' : 'var(--palette-teal)' }}>{regEmail || tr('(shkruaj email-in më lart)')}</strong></span>
                 </div>
               </div>
 
@@ -964,7 +964,7 @@ export default function AdminDashboard() {
                   width: '100%',
                   justifyContent: 'center',
                   padding: '0.85rem',
-                  boxShadow: '0 4px 14px rgba(13, 148, 136, 0.35)',
+                  boxShadow: '0 4px 14px color-mix(in srgb, var(--palette-teal) 35%, transparent)',
                   fontWeight: 700,
                   borderRadius: '10px'
                 }}
@@ -1007,14 +1007,14 @@ export default function AdminDashboard() {
       <main className="admin-main-view">
         <div className="admin-preferences">
           <button type="button" className="btn btn-outline btn-sm" onClick={toggleTheme} aria-label={theme === 'dark' ? t('themeLight') : t('themeDark')}>
-            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
           </button>
           <label className="language-picker"><span className="sr-only">{t('language')}</span><select value={language} onChange={(event) => setLanguage(event.target.value)}><option value="sq">Shqip</option><option value="en">English</option></select></label>
         </div>
         {/* Verification Status Banner */}
         <div className="admin-sync-banner" style={{
-          background: 'linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%)',
-          border: '1px solid #bbf7d0',
+          background: 'linear-gradient(135deg, color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white)) 0%, color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white)) 100%)',
+          border: '1px solid color-mix(in srgb, var(--palette-teal) 26%, var(--palette-white))',
           borderRadius: '14px',
           padding: '12px 20px',
           display: 'flex',
@@ -1022,14 +1022,14 @@ export default function AdminDashboard() {
           justifyContent: 'space-between',
           marginBottom: '2rem',
           fontSize: '0.875rem',
-          color: '#166534',
-          boxShadow: '0 2px 6px rgba(22, 101, 52, 0.04)',
+          color: 'color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy))',
+          boxShadow: '0 2px 6px color-mix(in srgb, var(--palette-teal) 4%, transparent)',
           flexWrap: 'wrap',
           gap: '12px'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: '#dcfce7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <CheckCircle size={18} color="#16a34a" />
+            <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <CheckCircle size={18} color="color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))" />
             </div>
             <span>
                   <strong>{tr('Lidhja me Backend')}:</strong> {language === 'en' ? 'Data is syncing with the Laravel API and database.' : 'Paneli po sinkronizon të dhënat drejtpërdrejt me Laravel API & MySQL.'}
@@ -1042,9 +1042,9 @@ export default function AdminDashboard() {
             onClick={loadAdminData}
             disabled={isLoadingData}
             style={{
-              borderColor: '#86efac',
-              color: '#15803d',
-              background: '#ffffff',
+              borderColor: 'color-mix(in srgb, var(--palette-teal) 26%, var(--palette-white))',
+              color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))',
+              background: 'var(--palette-white)',
               fontWeight: 600,
               borderRadius: '8px'
             }}
@@ -1059,10 +1059,10 @@ export default function AdminDashboard() {
           <div>
             <div className="admin-view-header">
               <div>
-                <h1 style={{ fontSize: '2rem', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', marginBottom: '0.25rem' }}>
+                <h1 style={{ fontSize: '2rem', fontWeight: 800, color: 'color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy))', letterSpacing: '-0.02em', marginBottom: '0.25rem' }}>
                   {tr('Paneli Kryesor i Administrimit')}
                 </h1>
-                <p style={{ color: '#64748b', fontSize: '0.9375rem' }}>
+                <p style={{ color: 'var(--palette-teal)', fontSize: '0.9375rem' }}>
                   {tr('Statistika dhe pasqyrë e plotë mbi bizneset dhe përmbajtjen e regjistruar në Lipjan.')}
                 </p>
               </div>
@@ -1073,7 +1073,7 @@ export default function AdminDashboard() {
                   className="btn btn-primary"
                   onClick={handleOpenAdd}
                   style={{
-                    boxShadow: '0 4px 14px rgba(13, 148, 136, 0.35)',
+                    boxShadow: '0 4px 14px color-mix(in srgb, var(--palette-teal) 35%, transparent)',
                     padding: '9px 18px',
                     fontWeight: 700,
                     borderRadius: '10px'
@@ -1088,7 +1088,7 @@ export default function AdminDashboard() {
             {/* Stat Cards Grid (Reale nga DB) */}
             <div className="stats-cards-grid">
               <div className="stat-card">
-                <div className="stat-icon" style={{ background: '#f0fdfa', color: '#0d9488' }}>
+                <div className="stat-icon" style={{ background: 'color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))', color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))' }}>
                   <Store size={24} />
                 </div>
                 <div className="stat-meta">
@@ -1098,7 +1098,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="stat-card">
-                <div className="stat-icon" style={{ background: '#ecfdf5', color: '#10b981' }}>
+                <div className="stat-icon" style={{ background: 'color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))', color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))' }}>
                   <CheckCircle size={24} />
                 </div>
                 <div className="stat-meta">
@@ -1108,7 +1108,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="stat-card">
-                <div className="stat-icon" style={{ background: '#fffbeb', color: '#f59e0b' }}>
+                <div className="stat-icon" style={{ background: 'color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))', color: 'var(--palette-teal)' }}>
                   <Clock size={24} />
                 </div>
                 <div className="stat-meta">
@@ -1118,7 +1118,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="stat-card">
-                <div className="stat-icon" style={{ background: '#f1f5f9', color: '#64748b' }}>
+                <div className="stat-icon" style={{ background: 'color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))', color: 'var(--palette-teal)' }}>
                   <Archive size={24} />
                 </div>
                 <div className="stat-meta">
@@ -1128,7 +1128,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="stat-card">
-                <div className="stat-icon" style={{ background: '#eff6ff', color: '#2563eb' }}>
+                <div className="stat-icon" style={{ background: 'color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))', color: 'var(--palette-teal)' }}>
                   <Layers size={24} />
                 </div>
                 <div className="stat-meta">
@@ -1138,7 +1138,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="stat-card">
-                <div className="stat-icon" style={{ background: '#faf5ff', color: '#7c3aed' }}>
+                <div className="stat-icon" style={{ background: 'color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))', color: 'var(--palette-teal)' }}>
                   <Megaphone size={24} />
                 </div>
                 <div className="stat-meta">
@@ -1150,8 +1150,8 @@ export default function AdminDashboard() {
 
             {/* Quick Recent Businesses Table */}
             <div className="admin-table-card">
-              <div style={{ padding: '1.25rem', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: '#0f172a' }}>
+              <div style={{ padding: '1.25rem', borderBottom: '1px solid color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy))' }}>
                   {tr('Bizneset e Fundit në Katalog')}
                 </h3>
                 <button
@@ -1179,7 +1179,7 @@ export default function AdminDashboard() {
                       <tr key={b.id}>
                         <td>
                           <strong>{b.name}</strong>
-                          <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{b.address}</div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--palette-teal)' }}>{b.address}</div>
                         </td>
                         <td>{b.category?.name || b.category_id}</td>
                         <td>{b.settlement?.name || b.settlement_id}</td>
@@ -1229,10 +1229,10 @@ export default function AdminDashboard() {
           <div>
             <div className="admin-view-header">
               <div>
-                <h1 style={{ fontSize: '1.875rem', fontWeight: 800, color: '#0f172a' }}>
+                <h1 style={{ fontSize: '1.875rem', fontWeight: 800, color: 'color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy))' }}>
                   {tr('Menaxhimi i Bizneseve')}
                 </h1>
-                <p style={{ color: '#64748b', fontSize: '0.9375rem' }}>
+                <p style={{ color: 'var(--palette-teal)', fontSize: '0.9375rem' }}>
                   {tr('Shto, ndrysho, fshi dhe menaxho statuset e publikimit (Draft, Publikuar, Arkivuar) në MySQL.')}
                 </p>
               </div>
@@ -1242,7 +1242,7 @@ export default function AdminDashboard() {
                 className="btn btn-primary"
                 onClick={handleOpenAdd}
                 style={{
-                  boxShadow: '0 4px 14px rgba(13, 148, 136, 0.35)',
+                  boxShadow: '0 4px 14px color-mix(in srgb, var(--palette-teal) 35%, transparent)',
                   padding: '9px 18px',
                   fontWeight: 700,
                   borderRadius: '10px'
@@ -1277,7 +1277,7 @@ export default function AdminDashboard() {
                         left: '10px',
                         top: '50%',
                         transform: 'translateY(-50%)',
-                        color: '#94a3b8'
+                        color: 'var(--search-icon)'
                       }}
                     />
                   </div>
@@ -1315,7 +1315,7 @@ export default function AdminDashboard() {
                   </select>
                 </div>
 
-                <span style={{ fontSize: '0.8125rem', color: '#64748b', fontWeight: 600 }}>
+                <span style={{ fontSize: '0.8125rem', color: 'var(--palette-teal)', fontWeight: 600 }}>
                       {businesses.length} {tr('Biznese')}
                 </span>
               </div>
@@ -1341,7 +1341,7 @@ export default function AdminDashboard() {
                             <div className="admin-business-name">
                               {biz.name}
                               {biz.featured ? (
-                                <span style={{ marginLeft: '6px', fontSize: '0.6875rem', background: '#fef3c7', color: '#92400e', padding: '2px 6px', borderRadius: '4px' }}>
+                                <span style={{ marginLeft: '6px', fontSize: '0.6875rem', background: 'color-mix(in srgb, var(--palette-teal) 26%, var(--palette-white))', color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))', padding: '2px 6px', borderRadius: '4px' }}>
                                   {tr('★ Veçuar')}
                                 </span>
                               ) : null}
@@ -1461,10 +1461,10 @@ export default function AdminDashboard() {
           <div>
             <div className="admin-view-header">
               <div>
-                <h1 style={{ fontSize: '1.875rem', fontWeight: 800, color: '#0f172a' }}>
+                <h1 style={{ fontSize: '1.875rem', fontWeight: 800, color: 'color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy))' }}>
                   {tr('Kategoritë & Vendbanimet')}
                 </h1>
-                <p style={{ color: '#64748b', fontSize: '0.9375rem' }}>
+                <p style={{ color: 'var(--palette-teal)', fontSize: '0.9375rem' }}>
                   {tr('Menaxhoni sektorët ekonomikë dhe lokalitetet në territorin e Lipjanit (me mbrojtje nga fshirja e lidhjeve).')}
                 </p>
               </div>
@@ -1564,7 +1564,7 @@ export default function AdminDashboard() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '1.5rem' }}>
               {/* Categories Card */}
               <div className="admin-table-card">
-                <div style={{ padding: '1rem 1.25rem', borderBottom: '1px solid #e2e8f0', fontWeight: 700 }}>
+                <div style={{ padding: '1rem 1.25rem', borderBottom: '1px solid color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))', fontWeight: 700 }}>
                   Kategoritë ({categories.length})
                 </div>
                 <div className="table-responsive">
@@ -1581,7 +1581,7 @@ export default function AdminDashboard() {
                         <tr key={c.id}>
                           <td>
                             <strong>{c.name}</strong>
-                            <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>ID: {c.id}</div>
+                            <div style={{ fontSize: '0.75rem', color: 'var(--palette-teal)' }}>ID: {c.id}</div>
                           </td>
                           <td><span className="cat-count">{c.businesses_count ?? 0}</span></td>
                           <td style={{ textAlign: 'right' }}>
@@ -1602,7 +1602,7 @@ export default function AdminDashboard() {
                             <button
                               type="button"
                               className="btn btn-outline btn-sm"
-                              style={{ color: '#ef4444', borderColor: '#fca5a5' }}
+                              style={{ color: 'var(--palette-teal)', borderColor: 'color-mix(in srgb, var(--palette-teal) 26%, var(--palette-white))' }}
                               onClick={() => handleDeleteCategory(c)}
                               title="Fshi kategorinë"
                             >
@@ -1618,7 +1618,7 @@ export default function AdminDashboard() {
 
               {/* Settlements Card */}
               <div className="admin-table-card">
-                <div style={{ padding: '1rem 1.25rem', borderBottom: '1px solid #e2e8f0', fontWeight: 700, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.75rem' }}>
+                <div style={{ padding: '1rem 1.25rem', borderBottom: '1px solid color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))', fontWeight: 700, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.75rem' }}>
                   <span>Vendbanimet ({settlements.length})</span>
                   <button type="button" className="btn btn-primary btn-sm" onClick={() => {
                     setEditingSettlement(null);
@@ -1652,7 +1652,7 @@ export default function AdminDashboard() {
                               setNewSettlementIsTown(Boolean(s.is_town));
                               setIsAddingSettlement(true);
                             }}><Edit2 size={13} /></button>
-                            <button type="button" className="btn btn-outline btn-sm" title={tr('Fshi vendbanimin')} style={{ marginLeft: '6px', color: '#ef4444', borderColor: '#fca5a5' }} onClick={() => handleDeleteSettlement(s)}><Trash2 size={13} /></button>
+                            <button type="button" className="btn btn-outline btn-sm" title={tr('Fshi vendbanimin')} style={{ marginLeft: '6px', color: 'var(--palette-teal)', borderColor: 'color-mix(in srgb, var(--palette-teal) 26%, var(--palette-white))' }} onClick={() => handleDeleteSettlement(s)}><Trash2 size={13} /></button>
                           </td>
                         </tr>
                       ))}
@@ -1698,7 +1698,7 @@ export default function AdminDashboard() {
                             setServiceCategoryId(service.category_id || '');
                             setIsServiceModalOpen(true);
                           }}><Edit2 size={13} /></button>
-                          <button type="button" className="btn btn-outline btn-sm" title={tr('Fshi shërbimin')} style={{ marginLeft: '6px', color: '#ef4444', borderColor: '#fca5a5' }} onClick={() => handleDeleteService(service)}><Trash2 size={13} /></button>
+                          <button type="button" className="btn btn-outline btn-sm" title={tr('Fshi shërbimin')} style={{ marginLeft: '6px', color: 'var(--palette-teal)', borderColor: 'color-mix(in srgb, var(--palette-teal) 26%, var(--palette-white))' }} onClick={() => handleDeleteService(service)}><Trash2 size={13} /></button>
                         </td>
                       </tr>
                     ))}
@@ -1743,10 +1743,10 @@ export default function AdminDashboard() {
           <div>
             <div className="admin-view-header">
               <div>
-                <h1 style={{ fontSize: '1.875rem', fontWeight: 800, color: '#0f172a' }}>
+                <h1 style={{ fontSize: '1.875rem', fontWeight: 800, color: 'color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy))' }}>
                   {tr('Reklamat & Bannerët Promovues')}
                 </h1>
-                <p style={{ color: '#64748b', fontSize: '0.9375rem' }}>
+                <p style={{ color: 'var(--palette-teal)', fontSize: '0.9375rem' }}>
                   {tr('Menaxhoni fushatat me të 4 statuset (Active, Scheduled, Expired, Disabled) dhe kontrollet e kohës.')}
                 </p>
               </div>
@@ -1880,7 +1880,7 @@ export default function AdminDashboard() {
                       <tr key={ad.id}>
                         <td>
                           <strong>{ad.title}</strong>
-                          <div style={{ fontSize: '0.75rem', color: '#64748b' }}>Sponsor: {ad.sponsor}</div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--palette-teal)' }}>Sponsor: {ad.sponsor}</div>
                         </td>
                         <td><code>{ad.placement}</code></td>
                         <td><strong>{ad.priority}</strong></td>

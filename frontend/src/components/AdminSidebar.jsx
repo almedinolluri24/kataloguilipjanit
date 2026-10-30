@@ -27,13 +27,13 @@ export default function AdminSidebar({ activeTab, onSelectTab, onLogout, adminUs
 
   return (
     <aside className="admin-sidebar" aria-label={tr('Menyja e Administrimit')}>
-      <div style={{ paddingBottom: '1.25rem', marginBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#14b8a6', marginBottom: '4px' }}>
+      <div style={{ paddingBottom: '1.25rem', marginBottom: '1rem', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+        <div className="admin-sidebar-brand" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--palette-white)', marginBottom: '4px' }}>
           <ShieldCheck size={22} />
-          <span style={{ fontWeight: 800, fontSize: '1.05rem', color: '#ffffff' }}>Paneli Admin</span>
+          <span style={{ fontWeight: 800, fontSize: '1.05rem', color: 'var(--palette-white)' }}>Paneli Admin</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '6px', color: '#94a3b8', fontSize: '0.8125rem' }}>
-          <UserCheck size={14} color="#14b8a6" />
+        <div className="admin-sidebar-account" style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '6px', color: 'var(--palette-white)', fontSize: '0.8125rem' }}>
+          <UserCheck size={14} color="var(--palette-white)" />
           <span>{adminUser?.email}</span>
         </div>
       </div>
@@ -58,14 +58,14 @@ export default function AdminSidebar({ activeTab, onSelectTab, onLogout, adminUs
         })}
       </nav>
 
-      <div style={{ marginTop: 'auto', paddingTop: '1.25rem', borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <div style={{ marginTop: 'auto', paddingTop: '1.25rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
         <button
           type="button"
           onClick={onLogout}
           style={{
-            background: 'rgba(239, 68, 68, 0.15)',
-            color: '#fca5a5',
-            border: '1px solid rgba(239, 68, 68, 0.3)',
+            background: 'color-mix(in srgb, var(--palette-teal) 15%, transparent)',
+            color: 'color-mix(in srgb, var(--palette-teal) 26%, var(--palette-white))',
+            border: '1px solid color-mix(in srgb, var(--palette-teal) 30%, transparent)',
             padding: '8px 12px',
             borderRadius: '8px',
             fontSize: '0.8125rem',
@@ -85,7 +85,7 @@ export default function AdminSidebar({ activeTab, onSelectTab, onLogout, adminUs
         <Link
           to="/"
           style={{
-            color: '#94a3b8',
+            color: 'var(--palette-teal)',
             fontSize: '0.8125rem',
             display: 'flex',
             alignItems: 'center',

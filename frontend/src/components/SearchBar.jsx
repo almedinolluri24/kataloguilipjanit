@@ -58,7 +58,7 @@ export default function SearchBar({
       </div>
 
       {showButton && (
-        <button type="submit" className="btn btn-primary" aria-label={tr('Ekzekuto kërkimin')}>
+        <button type="submit" className="btn btn-primary search-submit-btn" aria-label={tr('Ekzekuto kërkimin')}>
           <span>{tr('Kërko')}</span>
           <ArrowRight size={16} />
         </button>

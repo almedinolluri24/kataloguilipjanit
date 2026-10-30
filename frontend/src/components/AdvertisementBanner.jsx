@@ -31,13 +31,13 @@ export default function AdvertisementBanner({ placement = 'banner-home' }) {
       <div
         className="advertisement-banner"
         style={{
-          background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
-          border: '1px dashed #64748b'
+          background: 'linear-gradient(135deg, color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy)) 0%, color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy)) 100%)',
+          border: '1px dashed var(--palette-teal)'
         }}
       >
         <div className="ad-inner-content">
           <div className="ad-text-block">
-            <span className="ad-tag-sponsor" style={{ background: 'rgba(255,255,255,0.15)', color: '#ffffff' }}>
+            <span className="ad-tag-sponsor" style={{ background: 'rgba(255, 255, 255, 0.15)', color: 'var(--palette-white)' }}>
               <Megaphone size={14} />
               Hapësirë Reklamimi
             </span>
@@ -50,7 +50,7 @@ export default function AdvertisementBanner({ placement = 'banner-home' }) {
             <Link
               to="/shto-biznes"
               className="btn btn-primary"
-              style={{ backgroundColor: '#0d9488', color: '#ffffff', fontWeight: 600 }}
+              style={{ backgroundColor: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))', color: 'var(--palette-white)', fontWeight: 600 }}
             >
               <PlusCircle size={16} />
               <span>{tr('Kontakto Administratorin')}</span>
@@ -70,7 +70,7 @@ export default function AdvertisementBanner({ placement = 'banner-home' }) {
     <div
       className="advertisement-banner"
       style={{
-        background: 'linear-gradient(135deg, #0f172a 0%, #0d9488 100%)',
+        background: 'linear-gradient(135deg, color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy)) 0%, color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy)) 100%)',
         position: 'relative'
       }}
     >
@@ -82,7 +82,7 @@ export default function AdvertisementBanner({ placement = 'banner-home' }) {
               <Megaphone size={14} />
               E sponsorizuar • {activeAd.sponsor || 'Sponsor'}
             </span>
-            <span style={{ fontSize: '0.6875rem', background: 'rgba(0,0,0,0.3)', color: '#e2e8f0', padding: '2px 6px', borderRadius: '4px' }}>
+            <span style={{ fontSize: '0.6875rem', background: 'rgba(11, 18, 32, 0.3)', color: 'color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))', padding: '2px 6px', borderRadius: '4px' }}>
               Reklamë
             </span>
           </div>
@@ -100,7 +100,7 @@ export default function AdvertisementBanner({ placement = 'banner-home' }) {
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-primary"
-              style={{ backgroundColor: '#ffffff', color: '#0f172a', fontWeight: 700 }}
+              style={{ backgroundColor: 'var(--palette-white)', color: 'color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy))', fontWeight: 700 }}
             >
               <span>{tr('Shiko Ofertën')}</span>
               <ExternalLink size={16} />
@@ -109,7 +109,7 @@ export default function AdvertisementBanner({ placement = 'banner-home' }) {
             <Link
               to={destUrl}
               className="btn btn-primary"
-              style={{ backgroundColor: '#ffffff', color: '#0f172a', fontWeight: 700 }}
+              style={{ backgroundColor: 'var(--palette-white)', color: 'color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy))', fontWeight: 700 }}
             >
               <span>{tr('Shiko Profilin')}</span>
               <ArrowRight size={16} />

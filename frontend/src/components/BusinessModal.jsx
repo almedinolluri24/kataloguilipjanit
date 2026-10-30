@@ -155,7 +155,7 @@ export default function BusinessModal({
           <button
             type="button"
             onClick={onClose}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--palette-teal)' }}
             aria-label={tr('Mbyll modalin')}
           >
             <X size={20} />
@@ -355,13 +355,13 @@ export default function BusinessModal({
             </div>
 
             {/* Opening Hours */}
-            <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '8px', marginBottom: '1.25rem' }}>
-              <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#334155', display: 'block', marginBottom: '8px' }}>
+            <div style={{ background: 'color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))', padding: '12px', borderRadius: '8px', marginBottom: '1.25rem' }}>
+              <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy))', display: 'block', marginBottom: '8px' }}>
                 {tr('Orari i Punës')}
               </span>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '8px' }}>
                 <div>
-                  <label style={{ fontSize: '0.75rem', color: '#64748b' }}>{tr('Hënë - Premte:')}</label>
+                  <label style={{ fontSize: '0.75rem', color: 'var(--palette-teal)' }}>{tr('Hënë - Premte:')}</label>
                   <input
                     type="text"
                     className="form-input"
@@ -371,7 +371,7 @@ export default function BusinessModal({
                   />
                 </div>
                 <div>
-                  <label style={{ fontSize: '0.75rem', color: '#64748b' }}>{tr('E Shtunë:')}</label>
+                  <label style={{ fontSize: '0.75rem', color: 'var(--palette-teal)' }}>{tr('E Shtunë:')}</label>
                   <input
                     type="text"
                     className="form-input"
@@ -381,7 +381,7 @@ export default function BusinessModal({
                   />
                 </div>
                 <div>
-                  <label style={{ fontSize: '0.75rem', color: '#64748b' }}>{tr('E Diel:')}</label>
+                  <label style={{ fontSize: '0.75rem', color: 'var(--palette-teal)' }}>{tr('E Diel:')}</label>
                   <input
                     type="text"
                     className="form-input"
@@ -448,12 +448,12 @@ export default function BusinessModal({
               </div>
 
               <div style={{ paddingTop: '1.25rem' }}>
-                <label style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.875rem', fontWeight: 600, color: '#334155' }}>
+                <label style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.875rem', fontWeight: 600, color: 'color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy))' }}>
                   <input
                     type="checkbox"
                     checked={formData.featured}
                     onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                    style={{ width: '18px', height: '18px', accentColor: '#0d9488' }}
+                    style={{ width: '18px', height: '18px', accentColor: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))' }}
                   />
                   <span>{tr('Biznes i Veçuar (Featured)')}</span>
                 </label>

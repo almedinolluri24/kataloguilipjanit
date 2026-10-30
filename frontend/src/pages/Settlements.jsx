@@ -75,7 +75,7 @@ export default function Settlements() {
                 left: '12px',
                 top: '50%',
                 transform: 'translateY(-50%)',
-                color: '#94a3b8'
+                color: 'var(--search-icon)'
               }}
             />
           </div>
@@ -84,11 +84,11 @@ export default function Settlements() {
         {/* Settlements Grid */}
         {isLoading ? (
           <div style={{ textAlign: 'center', padding: '2rem 0' }}>
-            <Loader2 className="animate-spin" size={36} color="#0d9488" style={{ margin: '0 auto' }} />
+            <Loader2 className="animate-spin" size={36} color="color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))" style={{ margin: '0 auto' }} />
           </div>
         ) : loadError ? (
           <div role="alert" className="empty-state-card" style={{ padding: '2rem', textAlign: 'center' }}>
-            <AlertCircle size={30} color="#dc2626" style={{ margin: '0 auto 0.75rem' }} />
+            <AlertCircle size={30} color="var(--palette-teal)" style={{ margin: '0 auto 0.75rem' }} />
             <p>{tr('Vendbanimet nuk u ngarkuan. Kontrolloni lidhjen dhe provoni përsëri.')}</p>
             <button type="button" className="btn btn-outline btn-sm" onClick={loadSettlements} disabled={isLoading}>
               <RefreshCw size={14} className={isLoading ? 'animate-spin' : ''} /> {tr('Rifresko')}

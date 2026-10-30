@@ -99,7 +99,7 @@ export default function BusinessCard({ business }) {
               <span>{business.phone}</span>
             </a>
           ) : (
-            <span style={{ fontSize: '0.8125rem', color: '#94a3b8' }}>Lipjan</span>
+            <span style={{ fontSize: '0.8125rem', color: 'var(--palette-teal)' }}>Lipjan</span>
           )}
 
           <Link to={`/bizneset/${bizId}`} className="btn btn-outline btn-sm">

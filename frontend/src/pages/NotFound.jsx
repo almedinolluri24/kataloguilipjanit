@@ -8,16 +8,16 @@ export default function NotFound() {
   return (
     <div className="container" style={{ padding: '6rem 1.5rem', textAlign: 'center' }}>
       <div className="empty-state-card" style={{ maxWidth: '520px' }}>
-        <div className="empty-icon-wrap" style={{ background: '#fef2f2', color: '#ef4444' }}>
+        <div className="empty-icon-wrap" style={{ background: 'color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))', color: 'var(--palette-teal)' }}>
           <Compass size={40} />
         </div>
-        <h1 style={{ fontSize: '3rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.5rem' }}>
+        <h1 style={{ fontSize: '3rem', fontWeight: 800, color: 'color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy))', marginBottom: '0.5rem' }}>
           404
         </h1>
-        <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#334155', marginBottom: '0.75rem' }}>
+        <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy))', marginBottom: '0.75rem' }}>
           {tr('Faqja nuk u gjet')}
         </h2>
-        <p style={{ color: '#64748b', fontSize: '0.9375rem', lineHeight: 1.6, marginBottom: '2rem' }}>
+        <p style={{ color: 'var(--palette-teal)', fontSize: '0.9375rem', lineHeight: 1.6, marginBottom: '2rem' }}>
           {tr('Faqja që po kërkoni mund të jetë zhvendosur, fshirë ose nuk ekziston në Katalogun e Bizneseve të Lipjanit.')}
         </p>
         <Link to="/" className="btn btn-primary">

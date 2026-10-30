@@ -18,7 +18,7 @@ export default function Footer() {
                 <Building2 size={24} />
               </div>
               <div className="brand-text-col">
-                <span className="brand-title" style={{ color: 'var(--text-primary)' }}>Katalogu <span style={{ color: '#14b8a6' }}>Lipjan</span></span>
+                <span className="brand-title" style={{ color: 'var(--text-primary)' }}>Katalogu <span style={{ color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))' }}>Lipjan</span></span>
                 <span className="brand-subtitle" style={{ color: 'var(--text-muted)' }}>{tr('Komuna e Lipjanit')}</span>
               </div>
             </Link>
@@ -56,30 +56,30 @@ export default function Footer() {
             <h4 className="footer-heading">{tr('Informata & Kontakt')}</h4>
             <ul className="footer-links-list">
               <li className="footer-link-item" style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
-                <MapPin size={18} style={{ color: '#14b8a6', flexShrink: 0, marginTop: '2px' }} />
+                <MapPin size={18} style={{ color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))', flexShrink: 0, marginTop: '2px' }} />
                 <span>{tr('Sheshi "Adem Jashari", Lipjan, Republika e Kosovës')}</span>
               </li>
               <li className="footer-link-item" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <Phone size={18} style={{ color: '#14b8a6', flexShrink: 0 }} />
+                <Phone size={18} style={{ color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))', flexShrink: 0 }} />
                 <span>{tr('+383 38 580 000 (Komuna)')}</span>
               </li>
               <li className="footer-link-item" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <Mail size={18} style={{ color: '#14b8a6', flexShrink: 0 }} />
+                <Mail size={18} style={{ color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))', flexShrink: 0 }} />
                 <span>katalogu@lipjan-demo.rks</span>
               </li>
               <li className="footer-link-item" style={{ marginTop: '8px' }}>
                 <div style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
                   borderRadius: '8px',
                   padding: '10px',
                   fontSize: '0.75rem',
-                  color: '#94a3b8',
+                  color: 'var(--palette-teal)',
                   display: 'flex',
                   gap: '8px',
                   alignItems: 'center'
                 }}>
-                  <ShieldAlert size={18} color="#f59e0b" style={{ flexShrink: 0 }} />
+                  <ShieldAlert size={18} color="var(--palette-teal)" style={{ flexShrink: 0 }} />
                   <span>{tr('Katalog demonstrativ i dizajnuar për prezantim të veprimtarive të Lipjanit.')}</span>
                 </div>
               </li>
@@ -93,8 +93,8 @@ export default function Footer() {
             &copy; {currentYear} {language === 'en' ? 'Lipjan Municipality Business Directory.' : 'Katalogu i Bizneseve të Komunës së Lipjanit.'} {tr('Të gjitha të drejtat e rezervuara.')}
           </div>
           <div style={{ display: 'flex', gap: '16px' }}>
-            <Link to="/admin" style={{ color: '#94a3b8', fontSize: '0.75rem' }}>{tr('Paneli Admin')}</Link>
-            <a href="https://kk.rks-gov.net/lipjan/" target="_blank" rel="noreferrer" style={{ color: '#14b8a6', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+            <Link to="/admin" style={{ color: 'var(--palette-teal)', fontSize: '0.75rem' }}>{tr('Paneli Admin')}</Link>
+            <a href="https://kk.rks-gov.net/lipjan/" target="_blank" rel="noreferrer" style={{ color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
               {tr('Komuna e Lipjanit')} <ExternalLink size={12} />
             </a>
           </div>

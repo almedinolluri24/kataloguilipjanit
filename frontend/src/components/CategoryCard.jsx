@@ -38,14 +38,14 @@ export default function CategoryCard({ category, businessCount }) {
     <Link
       to={`/bizneset?kategoria=${category.slug || category.id}`}
       className="category-card"
-      style={{ '--category-accent': category.color || '#0d9488' }}
+      style={{ '--category-accent': 'var(--palette-teal)' }}
       aria-label={`${tr('Shiko bizneset në kategorinë')} ${category.name}`}
     >
       <div
         className="cat-icon-badge"
         style={{
-          backgroundColor: `${category.color || '#0d9488'}15`,
-          color: category.color || '#0d9488'
+          backgroundColor: 'color-mix(in srgb, var(--palette-teal) 12%, transparent)',
+          color: 'var(--palette-teal)'
         }}
       >
         <IconComponent size={24} />

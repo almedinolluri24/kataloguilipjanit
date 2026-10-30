@@ -64,20 +64,20 @@ export default function LeafletMap({
         <div style="
           width: 34px;
           height: 34px;
-          background: #0f172a;
-          border: 3px solid #14b8a6;
+          background: color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy));
+          border: 3px solid color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy));
           border-radius: 50% 50% 50% 0;
           transform: rotate(-45deg);
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+          box-shadow: 0 4px 10px rgba(11, 18, 32, 0.3);
           cursor: pointer;
         ">
           <div style="
             width: 10px;
             height: 10px;
-            background: #ffffff;
+            background: var(--palette-white);
             border-radius: 50%;
             transform: rotate(45deg);
           "></div>
@@ -92,8 +92,8 @@ export default function LeafletMap({
 
     const popupHtml = `
       <div style="font-family: inherit; padding: 4px;">
-        <strong style="color: #0f172a; font-size: 14px; display: block; margin-bottom: 2px;">${escapeHtml(title)}</strong>
-        <span style="color: #64748b; font-size: 12px;">${escapeHtml(address)}</span>
+        <strong style="color: color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy)); font-size: 14px; display: block; margin-bottom: 2px;">${escapeHtml(title)}</strong>
+        <span style="color: var(--palette-teal); font-size: 12px;">${escapeHtml(address)}</span>
       </div>
     `;
 
@@ -112,7 +112,7 @@ export default function LeafletMap({
   return (
     mapError ? (
       <div className="details-muted-surface" role="status" style={{ minHeight: height, padding: '2rem', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-        <AlertTriangle size={30} color="#d97706" style={{ marginBottom: '0.75rem' }} />
+        <AlertTriangle size={30} color="color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))" style={{ marginBottom: '0.75rem' }} />
         <strong>{tr('Harta nuk mund të ngarkohej për momentin')}</strong>
         <span className="details-supporting-text" style={{ marginTop: '0.4rem' }}>{address}</span>
         <span className="details-supporting-text" style={{ fontSize: '0.8125rem', marginTop: '0.25rem' }}>{tr('Përdorni adresën dhe kontaktet e biznesit.')}</span>

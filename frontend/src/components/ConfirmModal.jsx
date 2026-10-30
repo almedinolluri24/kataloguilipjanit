@@ -30,7 +30,7 @@ export default function ConfirmModal({
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(0, 0, 0, 0.7)',
+            background: 'rgba(11, 18, 32, 0.7)',
             backdropFilter: 'blur(8px)',
             display: 'flex',
             alignItems: 'center',
@@ -60,7 +60,7 @@ export default function ConfirmModal({
                     width: '40px',
                     height: '40px',
                     borderRadius: 'var(--radius-md)',
-                    background: 'rgba(239, 68, 68, 0.1)',
+                    background: 'color-mix(in srgb, var(--palette-teal) 10%, transparent)',
                     color: 'var(--color-danger)',
                     display: 'flex',
                     alignItems: 'center',

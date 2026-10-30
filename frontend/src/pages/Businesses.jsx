@@ -215,7 +215,7 @@ export default function Businesses() {
 
         {/* Results Count & Meta info */}
         <div style={{ marginBottom: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
-          <span style={{ fontSize: '0.875rem', color: '#64748b', fontWeight: 600 }}>
+          <span style={{ fontSize: '0.875rem', color: 'var(--palette-teal)', fontWeight: 600 }}>
             {isLoading ? tr('Duke ngarkuar të dhënat...') : language === 'en' ? `Showing ${businesses.length} of ${totalItems} matches (Page ${currentPage} of ${totalPages})` : `Duke shfaqur ${businesses.length} nga ${totalItems} përputhje gjithsej (Faqja ${currentPage} e ${totalPages})`}
           </span>
 
@@ -234,8 +234,8 @@ export default function Businesses() {
         {/* Error State with Retry Button */}
         {errorMessage && (
           <div style={{
-            background: '#fef2f2',
-            border: '1px solid #fecaca',
+            background: 'color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))',
+            border: '1px solid color-mix(in srgb, var(--palette-teal) 26%, var(--palette-white))',
             borderRadius: '12px',
             padding: '1.5rem',
             marginBottom: '1rem',
@@ -245,10 +245,10 @@ export default function Businesses() {
             gap: '1rem'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <AlertCircle size={24} color="#ef4444" style={{ flexShrink: 0 }} />
+              <AlertCircle size={24} color="var(--palette-teal)" style={{ flexShrink: 0 }} />
               <div>
-                <strong style={{ color: '#991b1b', display: 'block' }}>{tr('Dështoi lidhja me serverin')}</strong>
-                <span style={{ color: '#b91c1c', fontSize: '0.875rem' }}>{language === 'en' ? 'Please check the server connection and try again.' : errorMessage}</span>
+                <strong style={{ color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))', display: 'block' }}>{tr('Dështoi lidhja me serverin')}</strong>
+                <span style={{ color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))', fontSize: '0.875rem' }}>{language === 'en' ? 'Please check the server connection and try again.' : errorMessage}</span>
               </div>
             </div>
             <button
@@ -264,9 +264,9 @@ export default function Businesses() {
 
         {/* Loading Spinner */}
         {isLoading && (
-          <div style={{ padding: '2rem 0', textAlign: 'center', color: '#0d9488' }}>
+          <div style={{ padding: '2rem 0', textAlign: 'center', color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))' }}>
             <Loader2 size={36} className="animate-spin" style={{ margin: '0 auto 1rem' }} />
-            <p style={{ color: '#64748b', fontSize: '0.9375rem' }}>{tr('Duke marrë bizneset nga baza e të dhënave...')}</p>
+            <p style={{ color: 'var(--palette-teal)', fontSize: '0.9375rem' }}>{tr('Duke marrë bizneset nga baza e të dhënave...')}</p>
           </div>
         )}
 

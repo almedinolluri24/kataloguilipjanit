@@ -59,6 +59,36 @@ class DirectoryAssistantTest extends TestCase
         Http::assertNothingSent();
     }
 
+    public function test_general_questions_use_openai_responses_api(): void
+    {
+        config(['services.openai.api_key' => 'test-secret', 'services.openai.model' => 'test-model']);
+        Http::fake(['https://api.openai.com/v1/responses' => Http::response([
+            'output' => [[
+                'type' => 'message', 'content' => [['type' => 'output_text', 'text' => 'Përshëndetje!']],
+            ]],
+        ])]);
+
+        $this->postJson('/api/ai/chat', $this->payload('Si funksionon fotosinteza?'))
+            ->assertOk()->assertJsonPath('source', 'openai')->assertJsonPath('message', 'Përshëndetje!');
+
+        Http::assertSent(fn ($request) => $request->url() === 'https://api.openai.com/v1/responses'
+            && $request->hasHeader('Authorization', 'Bearer test-secret')
+            && $request['model'] === 'test-model'
+            && $request['store'] === false);
+    }
+
+    public function test_openai_quota_errors_are_returned_without_provider_details(): void
+    {
+        config(['services.openai.api_key' => 'test-secret']);
+        Http::fake(['https://api.openai.com/v1/responses' => Http::response(['error' => [
+            'code' => 'credit_balance_exhausted', 'message' => 'private provider detail',
+        ]], 429)]);
+
+        $this->postJson('/api/ai/chat', $this->payload('Më trego një shaka'))
+            ->assertStatus(429)->assertJsonPath('message', 'Projekti OpenAI API i lidhur me këtë çelës nuk ka kredi të disponueshme. Shtoni faturimin ose kredi në atë projekt dhe provoni përsëri.')
+            ->assertJsonMissing(['error' => ['message' => 'private provider detail']]);
+    }
+
     public function test_assistant_validates_language_history_and_message_size(): void
     {
         $this->postJson('/api/ai/chat', [

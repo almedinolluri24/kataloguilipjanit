@@ -6,10 +6,12 @@ use App\Models\Business;
 use App\Models\Category;
 use App\Models\Settlement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
-/** A local, database-grounded assistant with no external AI provider or API key. */
+/** Keeps directory lookups database-grounded and uses OpenAI for general conversation. */
 class DirectoryAssistantController extends Controller
 {
     private const MAX_HISTORY = 16;
@@ -51,6 +53,13 @@ class DirectoryAssistantController extends Controller
         $asksCategories = preg_match('/\b(category|categories|kategori|kategorite|sektor|sektoret)\w*\b/u', $normalized) === 1;
         $asksSettlements = preg_match('/\b(settlement|settlements|village|villages|town|vendban|vedban|fshat|lokalitet)\w*\b/u', $normalized) === 1;
 
+        $asksDirectory = $asksCategories || $asksSettlements || $categoryIds || $settlementIds
+            || preg_match('/\b(business|businesses|biznes|biznese|bizneset|shop|shops|restaurant|restaurants|company|companies|dyqan|dyqane|restorant|restorante|katalog|directory|katalogu)\w*\b/u', $normalized) === 1;
+
+        if (!$asksDirectory) {
+            return $this->openAiReply($validated['messages'], $language);
+        }
+
         if ($asksCategories && !$asksSettlements) {
             $categories = $this->searchCategories($query);
             $count = count($categories);
@@ -86,6 +95,75 @@ class DirectoryAssistantController extends Controller
             categories: $categories,
             settlements: $settlements
         ));
+    }
+
+    private function openAiReply(array $messages, string $language)
+    {
+        $apiKey = (string) config('services.openai.api_key');
+        if ($apiKey === '') {
+            return response()->json(['message' => $language === 'en'
+                ? 'The AI assistant is not configured yet. Set OPENAI_API_KEY on the server.'
+                : 'Asistenti AI nuk është konfiguruar ende. Vendosni OPENAI_API_KEY në server.'], 503);
+        }
+
+        $input = collect($messages)->slice(-12)->map(fn (array $message) => [
+            'role' => $message['role'],
+            'content' => $message['content'],
+        ])->values()->all();
+
+        try {
+            $response = Http::acceptJson()->withToken($apiKey)->timeout(35)->post('https://api.openai.com/v1/responses', [
+                'model' => config('services.openai.model', 'gpt-6-astra'),
+                'instructions' => $language === 'en'
+                    ? 'You are the helpful AI assistant for the Municipality of Lipjan business directory. Reply in English. For requests to navigate the website, briefly tell the user to use the site navigation. Never invent businesses, categories, settlements, contacts, or directory statistics; those come only from the live directory search.'
+                    : 'Je asistenti ndihmës AI për katalogun e bizneseve të Komunës së Lipjanit. Përgjigju në shqip. Për kërkesa për navigim në faqe, udhëzoje përdoruesin shkurt te navigimi. Mos shpik biznese, kategori, vendbanime, kontakte apo statistika të katalogut; ato vijnë vetëm nga kërkimi real në katalog.',
+                'input' => $input,
+                'max_output_tokens' => 600,
+                'store' => false,
+            ]);
+        } catch (\Throwable $exception) {
+            Log::warning('OpenAI assistant request failed', ['exception' => $exception::class]);
+            return response()->json(['message' => $language === 'en'
+                ? 'The AI service could not be reached. Please try again shortly.'
+                : 'Nuk u arrit lidhja me shërbimin AI. Ju lutem provoni përsëri pas pak.'], 503);
+        }
+
+        if ($response->status() === 429) {
+            if ($response->json('error.code') === 'credit_balance_exhausted') {
+                return response()->json(['message' => $language === 'en'
+                    ? 'The OpenAI API project linked to this key has no available credits. Add API billing or credits to that project, then try again.'
+                    : 'Projekti OpenAI API i lidhur me këtë çelës nuk ka kredi të disponueshme. Shtoni faturimin ose kredi në atë projekt dhe provoni përsëri.'], 429);
+            }
+
+            return response()->json(['message' => $language === 'en'
+                ? 'The AI service is busy or its usage limit was reached. Please try again later.'
+                : 'Shërbimi AI është i zënë ose është arritur kufiri i përdorimit. Provoni përsëri më vonë.'], 429);
+        }
+
+        if (!$response->successful()) {
+            Log::warning('OpenAI assistant returned an error', ['status' => $response->status()]);
+            return response()->json(['message' => $language === 'en'
+                ? 'The AI service returned an error. Please try again later.'
+                : 'Shërbimi AI ktheu një gabim. Provoni përsëri më vonë.'], 502);
+        }
+
+        $answer = collect($response->json('output', []))
+            ->where('type', 'message')
+            ->flatMap(fn (array $item) => $item['content'] ?? [])
+            ->where('type', 'output_text')
+            ->pluck('text')->filter()->implode("\n");
+
+        if (trim($answer) === '') {
+            return response()->json(['message' => $language === 'en'
+                ? 'The AI could not produce a response. Please rephrase your message.'
+                : 'AI nuk arriti të krijojë përgjigje. Ju lutem riformuloni mesazhin.'], 502);
+        }
+
+        return response()->json([
+            'message' => trim($answer),
+            'source' => 'openai',
+            'businesses' => [], 'categories' => [], 'settlements' => [],
+        ]);
     }
 
     private function response(string $message, array $businesses = [], array $categories = [], array $settlements = []): array

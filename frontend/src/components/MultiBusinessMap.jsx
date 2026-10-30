@@ -70,20 +70,20 @@ export default function MultiBusinessMap({
             <div style="
               width: 32px;
               height: 32px;
-              background: #0f172a;
-              border: 3px solid #0d9488;
+              background: color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy));
+              border: 3px solid color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy));
               border-radius: 50% 50% 50% 0;
               transform: rotate(-45deg);
               display: flex;
               align-items: center;
               justify-content: center;
-              box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+              box-shadow: 0 4px 10px rgba(11, 18, 32, 0.3);
               cursor: pointer;
             ">
               <div style="
                 width: 9px;
                 height: 9px;
-                background: #ffffff;
+                background: var(--palette-white);
                 border-radius: 50%;
                 transform: rotate(45deg);
               "></div>
@@ -104,16 +104,16 @@ export default function MultiBusinessMap({
 
         const popupContent = `
           <div style="font-family: inherit; padding: 6px 2px; min-width: 170px;">
-            <strong style="color: #0f172a; font-size: 14px; display: block; margin-bottom: 4px;">
+            <strong style="color: color-mix(in srgb, var(--palette-teal) 25%, var(--palette-navy)); font-size: 14px; display: block; margin-bottom: 4px;">
               ${escapeHtml(biz.name)}
             </strong>
-            <div style="color: #64748b; font-size: 12px; margin-bottom: 8px;">
+            <div style="color: var(--palette-teal); font-size: 12px; margin-bottom: 8px;">
               ${escapeHtml(biz.address || 'Lipjan')}
             </div>
             <a href="/bizneset/${escapeHtml(encodeURIComponent(biz.id || biz.slug || ''))}" style="
               display: inline-block;
-              background: #0d9488;
-              color: #ffffff;
+              background: color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy));
+              color: var(--palette-white);
               text-decoration: none;
               padding: 5px 10px;
               border-radius: 6px;
@@ -162,7 +162,7 @@ export default function MultiBusinessMap({
     <div className="multi-map-wrapper" style={{ marginTop: '1.25rem', marginBottom: '1.25rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.85rem' }}>
         <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <MapPin size={20} color="#0d9488" />
+          <MapPin size={20} color="color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))" />
           <span>{title}</span>
         </h3>
         <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
@@ -185,7 +185,7 @@ export default function MultiBusinessMap({
           textAlign: 'center',
           color: 'var(--text-muted)'
         }}>
-          <MapPin size={34} color="#0d9488" style={{ marginBottom: '10px' }} />
+          <MapPin size={34} color="color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))" style={{ marginBottom: '10px' }} />
           <p style={{ margin: 0 }}>{tr('Nuk ka biznese me koordinata të regjistruara në këtë faqe.')}</p>
         </div>
       ) : mapError ? (
@@ -201,7 +201,7 @@ export default function MultiBusinessMap({
           padding: '2rem',
           textAlign: 'center'
         }}>
-          <AlertTriangle size={36} color="#d97706" style={{ marginBottom: '10px' }} />
+          <AlertTriangle size={36} color="color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))" style={{ marginBottom: '10px' }} />
           <h4 style={{ color: 'var(--text-primary)', fontSize: '1rem', fontWeight: 600, marginBottom: '6px' }}>
             {tr('Harta nuk mund të ngarkohej për momentin')}
           </h4>
@@ -216,9 +216,9 @@ export default function MultiBusinessMap({
             height: height,
             width: '100%',
             borderRadius: '14px',
-            border: '1px solid #e2e8f0',
+            border: '1px solid color-mix(in srgb, var(--palette-teal) 12%, var(--palette-white))',
             overflow: 'hidden',
-            boxShadow: '0 2px 10px rgba(0,0,0,0.04)'
+            boxShadow: '0 2px 10px rgba(11, 18, 32, 0.04)'
           }}
           aria-label={title}
         />

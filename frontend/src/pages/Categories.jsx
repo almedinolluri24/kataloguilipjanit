@@ -105,7 +105,7 @@ export default function Categories() {
                 left: '14px',
                 top: '50%',
                 transform: 'translateY(-50%)',
-                color: '#94a3b8'
+                color: 'var(--search-icon)'
               }}
             />
           </div>
@@ -113,7 +113,7 @@ export default function Categories() {
 
         {/* Categories Grid */}
         {loadError ? (
-          <div role="alert" style={{ padding: '1.25rem', border: '1px solid #fecaca', borderRadius: '12px', color: '#b91c1c' }}>
+          <div role="alert" style={{ padding: '1.25rem', border: '1px solid color-mix(in srgb, var(--palette-teal) 26%, var(--palette-white))', borderRadius: '12px', color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))' }}>
             <p>{loadError}</p>
             <button type="button" className="btn btn-outline btn-sm" onClick={loadCategories} disabled={isLoading}>
               <RefreshCw size={14} className={isLoading ? 'animate-spin' : ''} /> {tr('Rifresko')}
@@ -121,7 +121,7 @@ export default function Categories() {
           </div>
         ) : isLoading ? (
           <div style={{ textAlign: 'center', padding: '2rem 0' }}>
-            <Loader2 className="animate-spin" size={36} color="#0d9488" style={{ margin: '0 auto' }} />
+            <Loader2 className="animate-spin" size={36} color="color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))" style={{ margin: '0 auto' }} />
           </div>
         ) : (
           filteredCategories.length === 0 ? (
@@ -140,7 +140,7 @@ export default function Categories() {
                   key={c.id}
                   to={`/bizneset?kategoria=${encodeURIComponent(c.id)}`}
                   className="category-showcase-card"
-                  style={{ '--category-accent': c.color || '#0d9488' }}
+                  style={{ '--category-accent': 'var(--palette-teal)' }}
                 >
                   <div className="category-showcase-top">
                     <div className="category-showcase-icon">

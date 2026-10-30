@@ -9,7 +9,7 @@ function createParticles(width, height) {
     radius: 1 + (index % 3) * 0.45,
     phase: index * 1.71,
     speed: 0.12 + (index % 5) * 0.025,
-    color: index % 2 === 0 ? '34, 211, 238' : '167, 139, 250'
+    color: '15, 118, 110'
   }));
 }
 

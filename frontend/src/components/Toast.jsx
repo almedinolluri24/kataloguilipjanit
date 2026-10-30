@@ -28,13 +28,13 @@ export function ToastProvider({ children }) {
       <div className="toast-container" aria-live="polite">
         {toasts.map((t) => (
           <div key={t.id} className="toast-card">
-            {t.type === 'success' && <CheckCircle2 size={18} color="#14b8a6" />}
-            {t.type === 'error' && <AlertCircle size={18} color="#ef4444" />}
-            {t.type === 'info' && <Info size={18} color="#0284c7" />}
+            {t.type === 'success' && <CheckCircle2 size={18} color="color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))" />}
+            {t.type === 'error' && <AlertCircle size={18} color="var(--palette-teal)" />}
+            {t.type === 'info' && <Info size={18} color="color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))" />}
             <span>{tr(t.message)}</span>
             <button
               onClick={() => removeToast(t.id)}
-              style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', marginLeft: 'auto' }}
+              style={{ background: 'none', border: 'none', color: 'var(--palette-teal)', cursor: 'pointer', marginLeft: 'auto' }}
               aria-label={tr('Mbyll njoftimin')}
             >
               <X size={14} />

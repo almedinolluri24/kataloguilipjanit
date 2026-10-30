@@ -91,13 +91,15 @@ Portali publik do të jetë i qasshëm në: `http://localhost:5173`
    - **CRUD Kategorive, Vendbanimeve & Shërbimeve**: Shtim, ndryshim dhe fshirje nga databaza; fshirja bllokohet kur biznesi përdor shërbimin/kategorinë/vendbanimin. Ndryshimi i emrit të shërbimit përditëson etiketat e lidhura të bizneseve.
    - **Menaxhimi i Reklamave**: Mbështetje për të 4 statuset: `active`, `scheduled`, `expired`, `disabled` me kontroll të periudhës kohore dhe prioriteteve.
 
-5. **Asistenti lokal i katalogut**:
-   - Asistenti lundrues është i qasshëm në faqet publike dhe punon në Shqip e Anglisht; asistenti i panelit admin përdor të njëjtin motor përgjigjesh përmes endpoint-it të mbrojtur.
-   - Biseda zanore përdor Web Speech API të shfletuesit: fjalët e njohura dërgohen si tekst te endpoint-i ekzistues Laravel dhe përgjigjja e motorit lokal lexohet me zë. Modaliteti zanor vazhdon me radhë të reja; përfshin heshtjen, ndalimin e të folurit dhe gjendje për mikrofonin/përpunimin.
+5. **Asistenti i katalogut**:
+   - Asistenti lundrues është i qasshëm në faqet publike dhe punon në Shqip e Anglisht; asistenti i panelit admin përdor endpoint-in e mbrojtur.
+   - Biseda zanore përdor Web Speech API të shfletuesit: fjalët e njohura dërgohen si tekst te endpoint-i ekzistues Laravel dhe përgjigjja lexohet me zë. Modaliteti zanor vazhdon me radhë të reja; përfshin heshtjen, ndalimin e të folurit dhe gjendje për mikrofonin/përpunimin.
    - Audioja nuk ngarkohet në endpoint-et tona dhe nuk ruhet nga faqja. Njohja mund të varet nga shërbimi i të folurit që përdor vetë shfletuesi. Mbështetja dhe zërat Shqip/Anglisht ndryshojnë sipas shfletuesit dhe sistemit; teksti mbetet i përdorshëm kur zëri nuk mbështetet.
    - Kërkesat si “më dërgo te bizneset/kategoritë/vendbanimet/admin” hapin faqen përkatëse. Paneli `/admin` vazhdon të kërkojë hyrje të vlefshme dhe asistenti nuk anashkalon autorizimin.
-   - Asistenti përdor logjikë lokale dhe kërkon vetëm të dhënat reale në databazën e katalogut. Nuk dërgon bisedat te shërbim i jashtëm dhe nuk kërkon API key.
-   - Kërkon biznese të publikuara, kategori e vendbanime në Shqip dhe Anglisht; përputhja toleron gabime të vogla në shkrim dhe të dhënat shfaqen me lidhje drejt faqes përkatëse. Ai nuk shpik biznese dhe nuk është model gjenerues për pyetje jashtë katalogut.
+   - Kërkimet për biznese, kategori dhe vendbanime vazhdojnë të përdorin vetëm të dhënat reale nga databaza. Pyetjet e përgjithshme dërgohen nga Laravel te OpenAI Responses API; çelësi nuk dërgohet në frontend.
+
+Për pyetjet e përgjithshme të asistentit, vendosni `OPENAI_API_KEY` në `backend/.env`; modeli i parazgjedhur është `gpt-4.1-mini` dhe mund të ndryshohet te `OPENAI_MODEL`. Modeli i vjetër `gpt-4` është mbyllur. Merrni çelësin nga OpenAI Platform; mos e vendosni në `frontend/.env`, në kod apo në GitHub. Pa çelës, kërkimet e katalogut vazhdojnë të funksionojnë dhe pyetjet e përgjithshme japin mesazh konfigurimi.
+   - Kërkimet në katalog tolerojnë gabime të vogla në shkrim dhe shfaqin të dhënat reale me lidhje drejt faqeve përkatëse. Pyetjet e përgjithshme marrin përgjigje gjeneruese nga OpenAI.
    - Endpoint-i publik kufizohet në 5 kërkesa në minutë / 60 në ditë për IP; endpoint-i i panelit admin mbetet i mbrojtur me token.
    - Historia e bisedës ruhet në `sessionStorage` vetëm për sesionin aktual të shfletuesit dhe mund të pastrohet me **Bisedë e re**.
 

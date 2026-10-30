@@ -64,8 +64,8 @@ export default function BusinessDetails() {
   if (isLoading) {
     return (
       <div className="container" style={{ padding: '6rem 1.5rem', textAlign: 'center' }}>
-        <Loader2 size={40} className="animate-spin" style={{ margin: '0 auto 1.5rem', color: '#0d9488' }} />
-        <p style={{ color: '#64748b', fontSize: '1rem' }}>{tr('Duke ngarkuar profilin e biznesit...')}</p>
+        <Loader2 size={40} className="animate-spin" style={{ margin: '0 auto 1.5rem', color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))' }} />
+        <p style={{ color: 'var(--palette-teal)', fontSize: '1rem' }}>{tr('Duke ngarkuar profilin e biznesit...')}</p>
       </div>
     );
   }
@@ -75,11 +75,11 @@ export default function BusinessDetails() {
     return (
       <div className="container" style={{ padding: '6rem 1.5rem', textAlign: 'center' }}>
         <div className="empty-state-card" style={{ maxWidth: '520px', margin: '0 auto' }}>
-          <AlertCircle size={52} color="#ef4444" style={{ margin: '0 auto 1.5rem' }} />
+          <AlertCircle size={52} color="var(--palette-teal)" style={{ margin: '0 auto 1.5rem' }} />
           <h2 className="empty-state-title" style={{ fontSize: '1.5rem', marginBottom: '0.75rem' }}>
             {tr('Biznesi nuk u gjet ose nuk është publikuar')}
           </h2>
-          <p className="empty-state-desc" style={{ color: '#64748b', marginBottom: '1.5rem', lineHeight: 1.6 }}>
+          <p className="empty-state-desc" style={{ color: 'var(--palette-teal)', marginBottom: '1.5rem', lineHeight: 1.6 }}>
             {tr('Ky profil mund të jetë në gjendje përgatitore (Draft), i arkivuar nga administratori, ose identifikuesi nuk ekziston në katalog.')}
           </p>
           <Link to="/bizneset" className="btn btn-primary">
@@ -179,7 +179,7 @@ export default function BusinessDetails() {
               <h1 className="details-title">{business.name}</h1>
 
               <div className="details-location-sub">
-                <MapPin size={16} color="#0d9488" />
+                <MapPin size={16} color="color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))" />
                 <span>{business.address || 'Lipjan, Kosovë'}</span>
               </div>
             </div>
@@ -187,12 +187,12 @@ export default function BusinessDetails() {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.5rem' }}>
               {Number(business.review_count ?? 0) > 0 && Number(business.rating) > 0 && (
                 <div className="badge-rating" style={{ fontSize: '1rem', padding: '0.4rem 0.85rem' }}>
-                  <Star size={18} color="#f59e0b" fill="#f59e0b" />
+                  <Star size={18} color="var(--palette-teal)" fill="var(--palette-teal)" />
                   <span>{Number(business.rating).toFixed(1)}</span>
                   <span className="details-supporting-text" style={{ fontSize: '0.8125rem' }}>({business.review_count} {tr('vlerësime')})</span>
                 </div>
               )}
-              <span style={{ fontSize: '0.75rem', color: '#059669', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ fontSize: '0.75rem', color: 'color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <CheckCircle size={14} /> {tr('Biznes i Verifikuar')}
               </span>
             </div>
@@ -218,7 +218,7 @@ export default function BusinessDetails() {
                 <div className="services-tag-list">
                   {servicesList.map((service, idx) => (
                     <span key={idx} className="service-pill-item">
-                      <CheckCircle size={15} color="#0d9488" />
+                      <CheckCircle size={15} color="color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))" />
                       <span>{service}</span>
                     </span>
                   ))}
@@ -230,7 +230,7 @@ export default function BusinessDetails() {
             <div className="details-section-card">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '8px' }}>
                 <h2 className="details-card-heading" style={{ margin: 0 }}>
-                  <MapPin size={20} color="#0d9488" />
+                  <MapPin size={20} color="color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))" />
                   <span>{tr('Vendndodhja në Hartë')}</span>
                 </h2>
 
@@ -263,7 +263,7 @@ export default function BusinessDetails() {
                   borderRadius: '12px',
                   textAlign: 'center'
                 }}>
-                  <MapPin size={32} color="#94a3b8" style={{ margin: '0 auto 0.75rem' }} />
+                  <MapPin size={32} color="var(--palette-teal)" style={{ margin: '0 auto 0.75rem' }} />
                   <p style={{ margin: 0, fontWeight: 500 }}>
                     {tr('Koordinatat gjeografike nuk janë konfiguruar për këtë adresë.')}
                   </p>
@@ -332,7 +332,7 @@ export default function BusinessDetails() {
             {/* Opening Hours Card (PDF faqe 5) */}
             <div className="details-section-card">
               <h2 className="details-card-heading">
-                <Clock size={18} color="#0d9488" />
+                <Clock size={18} color="color-mix(in srgb, var(--palette-teal) 45%, var(--palette-navy))" />
                 <span>{tr('Orari i Punës')}</span>
               </h2>
 
